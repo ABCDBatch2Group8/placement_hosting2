@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SkillService } from '../skill.service';
+import { ObjectID } from 'bson';
 
 @Component({
   selector: 'app-job-post',
@@ -15,7 +16,7 @@ import { SkillService } from '../skill.service';
 export class JobPostComponent implements OnInit {
   i: number = 0;
   selItems: Array<object> = [];
-  addJob = new JobModel('','','','','',this.selItems,'',null!,null!);
+  addJob = new JobModel('','','','','','','',this.selItems,'',null!,null!);
   constructor(private jobService: JobService, private skillService: SkillService, private router: Router) { }
   dropdownList: Array<Object> = [];
   selectedItems: Array<object> = [];
@@ -44,23 +45,11 @@ export class JobPostComponent implements OnInit {
     };
     
   }
-  // onItemSelect(item: any) {
-  //   console.log("onselect",item);
-  //   // this.selItems.push(item); 
-
-  //   // this.addJob.skills = item;
-  //   // this.addJob.skills.push(item)
-  // }
-  // onSelectAll(items: any) {
-  //   console.log("onselectall",items);
-  //   this.addJob.skills = items;
-  // }
   
 AddJob(){
-    // for ( let i=0; i< this.selectedItems.length; i++){
-    //   this.selItems = this.selectedItems;
-    // }
-
+    // this.addJob.emp_ref = localStorage.getItem('EmpId');
+    this.addJob.emp_ref = localStorage.getItem('EmpId');
+    this.addJob.company = localStorage.getItem('EmpComp')
     this.addJob.skills = this.selectedItems;
     console.log ("To insert in job",this.addJob)
     console.log("selitems",this.selItems)

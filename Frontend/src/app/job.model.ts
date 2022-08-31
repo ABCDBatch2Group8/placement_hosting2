@@ -1,6 +1,10 @@
+import { ObjectId } from "mongodb";
+
 export class JobModel {
     constructor(
         public jobid: String,
+        public emp_ref: String | null,
+        public company: String | null,
         public position: String,
         public jd_text: String,
         public number: String,

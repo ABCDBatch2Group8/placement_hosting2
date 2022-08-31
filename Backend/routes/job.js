@@ -8,6 +8,8 @@ router.post('/jobpost',(req,res)=>{
     const job = new Job({
       jobid: req.body.Job.jobid,
       position: req.body.Job.position,
+      emp_ref: req.body.Job.emp_ref,
+      company: req.body.Job.company,
       jd_text: req.body.Job.jd_text,
       number: req.body.Job.number,
       salary: req.body.Job.salary,
