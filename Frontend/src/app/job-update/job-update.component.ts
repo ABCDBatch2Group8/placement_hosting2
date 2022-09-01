@@ -8,20 +8,24 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SkillService } from '../skill.service';
 
 @Component({
-  selector: 'app-job-post',
-  templateUrl: './job-post.component.html',
-  styleUrls: ['./job-post.component.css']
+  selector: 'app-job-update',
+  templateUrl: './job-update.component.html',
+  styleUrls: ['./job-update.component.css']
 })
-export class JobPostComponent implements OnInit {
+export class JobUpdateComponent implements OnInit {
   selItems: Array<object> = [];
-  addJob = new JobModel('','','','','','','',this.selItems,'',null!,null!);
+  viewJob = new JobModel('','','','','','','',this.selItems,'',null!,null!);
   constructor(private jobService: JobService, private skillService: SkillService, private router: Router) { }
   dropdownList: Array<Object> = [];
   selectedItems: Array<object> = [];
   
   dropdownSettings:IDropdownSettings={};
- 
   ngOnInit(): void {
+
+    let jobId = localStorage.getItem("JobId");
+    this.jobService.jobDetails(jobId).subscribe((data:any)=>{
+      this.viewJob = JSON.parse(JSON.stringify(data));
+    })
     // Getting skills for the dropdown from the skills collection
     this.skillService.getSkill()
         .subscribe(
@@ -41,22 +45,24 @@ export class JobPostComponent implements OnInit {
       // limitSelection: 5,
       allowSearchFilter: true
     };
-    
+       
   }
-  
-AddJob(){
-    // this.addJob.emp_ref = localStorage.getItem('EmpId');
-    this.addJob.emp_ref = localStorage.getItem('EmpId');
-    this.addJob.company = localStorage.getItem('EmpComp')
-    this.addJob.skills = this.selectedItems;
-    console.log ("To insert in job",this.addJob)
-    console.log("selitems",this.selItems)
-    this.jobService.newJobs(this.addJob)
-    // .subscribe(
-    //   (res:any) => {  
-    //     alert("res.message")
-    //   })
-    this.router.navigate(['employer/dashboard']);
-    alert ("success")
-}
+  cancel(){
+    this.router.navigate(['employer/job-view']);
+  }
+        editJob(){
+//     // this.addJob.emp_ref = localStorage.getItem('EmpId');
+//     this.addJob.emp_ref = localStorage.getItem('EmpId');
+//     this.addJob.company = localStorage.getItem('EmpComp')
+//     this.addJob.skills = this.selectedItems;
+//     console.log ("To insert in job",this.addJob)
+//     console.log("selitems",this.selItems)
+//     this.jobService.newJobs(this.addJob)
+//     // .subscribe(
+//     //   (res:any) => {  
+//     //     alert("res.message")
+//     //   })
+//     this.router.navigate(['employer/dashboard']);
+//     alert ("success")
+    }
 }

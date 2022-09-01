@@ -2,6 +2,13 @@ const express = require ('express');
 const router = express.Router();
 const Job = require('../models/job');
 
+getJob = [{
+  jobid : '',
+  position: '',
+  jd_text: '',
+  number: ''
+}]
+
 // Job posting by the employer
 router.post('/jobpost',(req,res)=>{
     
@@ -28,5 +35,35 @@ router.post('/jobpost',(req,res)=>{
         console.log("error",err)
     })   
   });
+
+  // Get the list of jobs posted in job collection
+router.get('/joblist', async (req,res)=>{
+  console.log("in job route get");
+  
+  try{
+      getJob = await Job.find({},{"jobid":1,"position":1,"jd_text":1,"number":1})
+      res.send(getJob);
+      console.log("getJob"+getJob);
+  }catch(err){
+      console.log("In error /job get");
+      console.log("error is",err)
+      res.json({message: err})
+  }
+})
+
+router.get('/jobview/:id', async (req, res) => {
+  console.log("in book route");
+  console.log(req.params);
+  try {
+    const id = req.params.id;
+    const getJob = await Job.findById({ "_id": id });
+    res.json(getJob);
+    console.log("getEmp" + getJob);
+  } catch (err) {
+    console.log("In error /profile");
+    console.log("error is",err)
+    res.json({ message: err })
+  }
+});
 
   module.exports = router;

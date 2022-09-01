@@ -39,6 +39,10 @@ import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage
 import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-uspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
 import { SkillService } from './skill.service';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobUpdateComponent } from './job-update/job-update.component';
+import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+import { JobViewComponent } from './job-view/job-view.component';
 
 
 
@@ -72,7 +76,11 @@ import { SkillService } from './skill.service';
     StudProfilepageComponent,
     StudSettingspageComponent,
     StudContactUspageComponent,
-    StudFormP2Component
+    StudFormP2Component,
+    JobListComponent,
+    JobUpdateComponent,
+    JobShortlistComponent,
+    JobViewComponent
   ],
   imports: [
     BrowserModule,

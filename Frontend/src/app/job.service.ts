@@ -17,6 +17,19 @@ export class JobService {
       console.log("res is", res);
     })
     }
+  getJobs(){
+    return this.http.get<any>(`${this.server_address}/job/joblist`)
+  }
+
+  jobDetails(id:any){
+    return this.http.get<any>(`${this.server_address}/job/jobview/`+id)
+  }
+
+  editJob(job:any){
+    console.log("Job update");
+    return this.http.put<any>(`${this.server_address}/job/edit/`,job)
+    .subscribe(data => {console.log(data)})
+  }
 
 
 }

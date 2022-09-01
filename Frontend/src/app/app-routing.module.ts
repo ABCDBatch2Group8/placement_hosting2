@@ -27,6 +27,11 @@ import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-u
 import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.component';
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobViewComponent } from './job-view/job-view.component';
+import { JobUpdateComponent } from './job-update/job-update.component';
+import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+
 
 
 const routes: Routes = [
@@ -38,7 +43,12 @@ const routes: Routes = [
     {path : "signup", component : EmpSignupComponent},
     {path : "dashboard", component: EmpDashboardComponent},
     {path : "profile", component: EmpProfileComponent},
-    {path : "job-post", component: JobPostComponent }
+    {path : "job-post", component: JobPostComponent },
+    {path : "job-list", component: JobListComponent },
+    {path : "job-view", component: JobViewComponent },
+    {path : "job-update", component: JobUpdateComponent },
+    {path : "job-shortlist", component: JobShortlistComponent }
+    
   ]
   },
   {path : "student", component : StudentComponent,
