@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,8 +41,17 @@ import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
 import { StudApplyComponent } from './stud-apply/stud-apply.component';
 import { StudHomeComponent } from './stud-home/stud-home.component';
 import { StudJobhistoryComponent } from './stud-jobhistory/stud-jobhistory.component';
+import { AdmnAddemployerComponent } from './admn-addemployer/admn-addemployer.component';
+import { AdmnJobsComponent } from './admn-jobs/admn-jobs.component';
 
 
+import { SkillService } from './skill.service';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobUpdateComponent } from './job-update/job-update.component';
+import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+import { JobViewComponent } from './job-view/job-view.component';
+import { OfferAddComponent } from './offer-add/offer-add.component';
+import { OfferService } from './offer.service';
 
 @NgModule({
   declarations: [
@@ -77,7 +86,14 @@ import { StudJobhistoryComponent } from './stud-jobhistory/stud-jobhistory.compo
     StudFormP2Component,
     StudApplyComponent,
     StudHomeComponent,
-    StudJobhistoryComponent
+    StudJobhistoryComponent,
+    AdmnAddemployerComponent,
+    AdmnJobsComponent,
+    JobListComponent,
+    JobUpdateComponent,
+    JobShortlistComponent,
+    JobViewComponent,
+    OfferAddComponent
   ],
   imports: [
     BrowserModule,
@@ -85,9 +101,10 @@ import { StudJobhistoryComponent } from './stud-jobhistory/stud-jobhistory.compo
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
-  providers: [EmpService,JobService,StudAuthService],
+  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
