@@ -191,9 +191,10 @@ route.put('/dashboard/update2', async (req, res) => {
 // });
 // ??????????????pending
 route.get("/jobListing",(req,res)=>{
-  Jobs.find().sort({start_date: -1}).then(function(job){
+  let date= new Date().toISOString();
+  Jobs.find( { $and:[{ start_date: { $lte: date } },{ end_date: { $gte: date } }] }).sort({start_date: -1}).then(function(job){
     // const obj = {job};
-    let date= new Date().toISOString();
+    
     console.log(date);
     console.log(job);
     // console.log(job.location)
@@ -239,9 +240,10 @@ route.get('/history/:id',async (req,res)=>{
   console.log("in history (get req) :",req.params);
   try{
     const id = req.params.id;
-    const applicant_data = await Jobs.find(applicants.stud_ref); 
+    const applicant_data = await Jobs.find({applicants:{$elemMatch:{stud_ref:id}}}); 
     // res.json(stud_data);
     console.log("applicants found (in history):"+applicant_data);
+    res.send(applicant_data);
 }catch(err){
     console.log("profile data not correct");
     res.json({message: "data not fetched"})
