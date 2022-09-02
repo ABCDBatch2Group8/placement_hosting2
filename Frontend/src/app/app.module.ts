@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,8 +38,13 @@ import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.co
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-uspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
-
-
+import { SkillService } from './skill.service';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobUpdateComponent } from './job-update/job-update.component';
+import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+import { JobViewComponent } from './job-view/job-view.component';
+import { OfferAddComponent } from './offer-add/offer-add.component';
+import { OfferService } from './offer.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +76,12 @@ import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
     StudProfilepageComponent,
     StudSettingspageComponent,
     StudContactUspageComponent,
-    StudFormP2Component
+    StudFormP2Component,
+    JobListComponent,
+    JobUpdateComponent,
+    JobShortlistComponent,
+    JobViewComponent,
+    OfferAddComponent
   ],
   imports: [
     BrowserModule,
@@ -79,9 +89,10 @@ import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
-  providers: [EmpService,JobService,StudAuthService],
+  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

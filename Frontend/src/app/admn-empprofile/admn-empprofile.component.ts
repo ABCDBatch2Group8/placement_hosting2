@@ -23,7 +23,8 @@ export class AdmnEmpprofileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let empid = localStorage.getItem('editEmployerId');   
+    // let empid = localStorage.getItem('editEmployerId');   
+    let empid = localStorage.getItem('EmpId'); 
     this.admnemployer.setEmpProfile(empid).subscribe((data)=>{
     this.employerview=JSON.parse(JSON.stringify(data));
     this.employeredit = JSON.parse(JSON.stringify(data));
