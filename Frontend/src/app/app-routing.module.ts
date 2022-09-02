@@ -27,6 +27,8 @@ import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-u
 import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.component';
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
+import { AdmnResetComponent } from './admn-reset/admn-reset.component';
+import { AdmnListComponent } from './admn-list/admn-list.component';
 
 
 const routes: Routes = [
@@ -63,7 +65,9 @@ const routes: Routes = [
     {path : "ictakstudents",component:AdmnStudentsComponent},
     {path : "employer",component : AdmnEmployerComponent},
     {path : "empsettings",component : AdmnEmpprofileComponent},
-    {path : "candidates", component : AdmnCandidatesComponent}
+    {path : "candidates", component : AdmnCandidatesComponent},
+    {path:"reset",component:AdmnResetComponent},
+    {path:"adminlist",component:AdmnListComponent}
   ]
   }
 ];

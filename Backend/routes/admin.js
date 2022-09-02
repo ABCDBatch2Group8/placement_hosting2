@@ -34,20 +34,20 @@ router.post('/login',async(req,res)=>{
             // let token=jwt.sign(payload,'secretkey')
             // res.status(200).send({token});
             console.log('validated');
-            res.json({success:true,msg:'validated'})
+            res.json({"success":"true","msg":"validated"})
         }
         else
         {
            // res.send('password not matching');
             console.log('pwd not matching')
-            res.json({success:false,msg:'password not matching'})
+            res.json({"success":"false","msg":"password not matching"})
         }
     }
     catch(error)
     {
         //res.status(400).send("invalid email");
         console.log('invalid email')
-        res.json({success:false,msg:'invalid email'})
+        res.json({"success":"false","msg":"invalid email"})
     }
     
 })
@@ -55,29 +55,20 @@ router.post('/login',async(req,res)=>{
 //ADMIN SIGN UP
 
 router.post('/signup',(req,res)=>{
+    console.log("email :",req.body.email)
+    console.log(req.body.email)
    const newAdmin={
-    username:req.body.username,
     email:req.body.email,
-    password:req.body.password,
-    designation:req.body.designation
+    password:req.body.password
    }
    var subadmin=new adminModel(newAdmin);
    subadmin.save();
    })
-
-
    //LIST SUBADMINS
 
  router.get('/admins',(req,res)=>{
-    adminModel.find().then(function(admins,err){
-        if(err){
-            res.json({success:false,msg:'NotExist'})
-        }
-        else{
-            res.json({success:true,msg:'Exist'})
-        }
-       
-
+    adminModel.find().then(function(admins){
+        res.send(admins);
     });
 
     });

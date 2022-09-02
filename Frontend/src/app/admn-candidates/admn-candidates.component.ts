@@ -27,7 +27,6 @@ export class AdmnCandidatesComponent implements OnInit {
         //this.candidates = posts;
         this.candidates = JSON.parse(JSON.stringify(posts));
     }, error => console.error(error));
-
   } 
     
 

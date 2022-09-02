@@ -38,6 +38,8 @@ import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.co
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-uspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
+import { AdmnResetComponent } from './admn-reset/admn-reset.component';
+import { AdmnListComponent } from './admn-list/admn-list.component';
 
 
 
@@ -71,7 +73,9 @@ import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
     StudProfilepageComponent,
     StudSettingspageComponent,
     StudContactUspageComponent,
-    StudFormP2Component
+    StudFormP2Component,
+    AdmnResetComponent,
+    AdmnListComponent
   ],
   imports: [
     BrowserModule,

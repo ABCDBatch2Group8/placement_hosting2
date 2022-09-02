@@ -48,9 +48,8 @@ email!:string
         lastname:this.student.lastname,
         email:this.student.email
       }
-      this.admn.getStudent(this.email)
-
       this.admn.newStudent(newstud)
+      this.admn.getStudent(this.email)
       this.router.navigate(['admin/ictakstudents'])
       
     }
