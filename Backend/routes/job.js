@@ -66,4 +66,35 @@ router.get('/jobview/:id', async (req, res) => {
   }
 });
 
+//If shortlisting is based on year of pass out alone
+router.get('/job/sl/year', async (req, res) => {
+  console.log("in book route");
+  console.log(req.params);
+  try {
+    const id = req.params.id;
+    const getJob = await Job.findById({ "_id": id });
+    // res.json(getJob);
+    console.log("getEmp" + getJob);
+    studDetails = []
+    try{
+      for (i=0;i<getJob.applicants.length;i++){
+      sid = getJob.applicant[i].stud_ref
+      const getStud = await Job.findById({"_id":sid})
+      studDetails.push(getStud);
+      }
+      console.log("studDetails",studDetails)
+      res.json(studDetails)
+      }catch (err) {
+        console.log("In error /shortlist");
+        console.log("error is",err)
+        res.json({ message: err })
+    }
+
+  } catch (err) {
+    console.log("In error /shortlist");
+    console.log("error is",err)
+    res.json({ message: err })
+  }
+});
+
   module.exports = router;

@@ -43,8 +43,8 @@ import { JobListComponent } from './job-list/job-list.component';
 import { JobUpdateComponent } from './job-update/job-update.component';
 import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
 import { JobViewComponent } from './job-view/job-view.component';
-
-
+import { OfferAddComponent } from './offer-add/offer-add.component';
+import { OfferService } from './offer.service';
 
 @NgModule({
   declarations: [
@@ -80,7 +80,8 @@ import { JobViewComponent } from './job-view/job-view.component';
     JobListComponent,
     JobUpdateComponent,
     JobShortlistComponent,
-    JobViewComponent
+    JobViewComponent,
+    OfferAddComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +92,7 @@ import { JobViewComponent } from './job-view/job-view.component';
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  providers: [EmpService,JobService,StudAuthService,SkillService],
+  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

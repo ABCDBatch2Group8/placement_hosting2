@@ -45,11 +45,10 @@ export class JobViewComponent implements OnInit {
   back(){
     this.router.navigate(['employer/job-list']);
   }
-  editJob(job:any){
+  editJob(){
     this.router.navigate(['employer/job-update']);
    }
-   shortlistApp(job:any){
-    localStorage.setItem("JobId",job._id.toString());
+   shortlistApp(){
     this.router.navigate(['/employer/job-shortlist']);
 
 }

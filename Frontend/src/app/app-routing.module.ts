@@ -31,6 +31,7 @@ import { JobListComponent } from './job-list/job-list.component';
 import { JobViewComponent } from './job-view/job-view.component';
 import { JobUpdateComponent } from './job-update/job-update.component';
 import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+import { OfferAddComponent } from './offer-add/offer-add.component';
 
 
 
@@ -47,7 +48,8 @@ const routes: Routes = [
     {path : "job-list", component: JobListComponent },
     {path : "job-view", component: JobViewComponent },
     {path : "job-update", component: JobUpdateComponent },
-    {path : "job-shortlist", component: JobShortlistComponent }
+    {path : "job-shortlist", component: JobShortlistComponent },
+    {path : "offer-add", component: OfferAddComponent }
     
   ]
   },
