@@ -38,6 +38,8 @@ import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.co
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-uspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
+import { AdmnResetComponent } from './admn-reset/admn-reset.component';
+import { AdmnListComponent } from './admn-list/admn-list.component';
 import { StudApplyComponent } from './stud-apply/stud-apply.component';
 import { StudHomeComponent } from './stud-home/stud-home.component';
 import { StudJobhistoryComponent } from './stud-jobhistory/stud-jobhistory.component';
@@ -84,6 +86,8 @@ import { OfferService } from './offer.service';
     StudSettingspageComponent,
     StudContactUspageComponent,
     StudFormP2Component,
+    AdmnResetComponent,
+    AdmnListComponent,
     StudApplyComponent,
     StudHomeComponent,
     StudJobhistoryComponent,

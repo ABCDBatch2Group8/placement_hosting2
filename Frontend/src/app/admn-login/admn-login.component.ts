@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdmnAuthService } from '../admn-auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
+
 
 @Component({
   selector: 'app-admn-login',
@@ -23,15 +25,33 @@ loginAdmin(){
   }
   
  this.admnauth.admnlogin(admin)
- .subscribe(data=>{
-  if(data as {success:true}){
+ .subscribe((data:any)=>{
+  if(data.success=="true"){
   
     //alert('valid');
     this.router.navigate(['admin/dashboard'])
   }
-  if(data as {success:false}){
-    alert('Invalid User')
+  else if(data.success=="false"){
+    
+    Swal.fire({
+      toast: true,
+      color: 'blue',
+      background: 'white',
+      icon: 'error',
+      title: "invalid username or password",
+      position: 'center',
+      showConfirmButton: false,
+      timer: 10000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mousecenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
     this.router.navigate(['admin'])
+  }
+  else{
+    alert("invalid email")
   }
   
  })
