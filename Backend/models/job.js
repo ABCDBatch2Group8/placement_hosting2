@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -8,6 +9,14 @@ let ApplicantsSchema = new Schema({email: String, shortlist_status: Boolean,appl
 
 let jobsSchema = new Schema({
   jobid: {
+    type: String,
+    required: true
+  },
+  emp_ref: {
+    type: String,
+    required: true
+  },
+  company: {
     type: String,
     required: true
   },
