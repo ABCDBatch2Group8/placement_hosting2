@@ -213,6 +213,8 @@
 /* 10. WOW active */
     new WOW().init();
 
+/* 11. Datepicker */
+    
 // 12 Pop Up Img
     var popUp = $('.single_gallery_part, .img-pop-up');
       if(popUp.length){

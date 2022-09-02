@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmpModel } from '../emp.model';
-import { EmpService } from '../emp.service';
+import { OfferModel } from '../offer.model';
+import { OfferService } from '../offer.service';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2'
 
 @Component({
-  selector: 'app-emp-signup',
-  templateUrl: './emp-signup.component.html',
-  styleUrls: ['./emp-signup.component.css']
+  selector: 'app-offer-add',
+  templateUrl: './offer-add.component.html',
+  styleUrls: ['./offer-add.component.css']
 })
-export class EmpSignupComponent implements OnInit {
+export class OfferAddComponent implements OnInit {
   title: String = "Please Register!";
-  addEmp = new EmpModel('','','','','','');
-  constructor(private empService: EmpService, private router: Router) { }
+  addOffer = new OfferModel('','','','','','','','','');
+
+  constructor(private offerService: OfferService, private router: Router) { }
 
   ngOnInit(): void {
   }
-  AddEmp(){
-    console.log("In AddEmp")
-    this.empService.newEmps(this.addEmp);
-    this.router.navigate(['employer/login']);
+  AddOffer(){
+  this.offerService.newOffer(this.addOffer);
+    this.router.navigate(['employer/dashboard']);
     Swal.fire({
       toast: true,
       color: 'green',
@@ -37,7 +37,6 @@ export class EmpSignupComponent implements OnInit {
       }
     })
   }
-  onReset(form: NgForm): void {
-    form.reset();
-  }
+
+
 }

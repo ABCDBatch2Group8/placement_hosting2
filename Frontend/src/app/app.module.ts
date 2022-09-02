@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,6 +42,13 @@ import { AdmnAddemployerComponent } from './admn-addemployer/admn-addemployer.co
 import { AdmnJobsComponent } from './admn-jobs/admn-jobs.component';
 
 
+import { SkillService } from './skill.service';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobUpdateComponent } from './job-update/job-update.component';
+import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+import { JobViewComponent } from './job-view/job-view.component';
+import { OfferAddComponent } from './offer-add/offer-add.component';
+import { OfferService } from './offer.service';
 
 @NgModule({
   declarations: [
@@ -75,7 +82,12 @@ import { AdmnJobsComponent } from './admn-jobs/admn-jobs.component';
     StudContactUspageComponent,
     StudFormP2Component,
     AdmnAddemployerComponent,
-    AdmnJobsComponent
+    AdmnJobsComponent,
+    JobListComponent,
+    JobUpdateComponent,
+    JobShortlistComponent,
+    JobViewComponent,
+    OfferAddComponent
   ],
   imports: [
     BrowserModule,
@@ -83,9 +95,10 @@ import { AdmnJobsComponent } from './admn-jobs/admn-jobs.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
-  providers: [EmpService,JobService,StudAuthService],
+  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
