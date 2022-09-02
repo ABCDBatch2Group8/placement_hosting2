@@ -27,6 +27,9 @@ import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-u
 import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.component';
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
+import { StudApplyComponent } from './stud-apply/stud-apply.component';
+import { StudHomeComponent } from './stud-home/stud-home.component';
+import { StudJobhistoryComponent } from './stud-jobhistory/stud-jobhistory.component';
 import { AdmnAddemployerComponent } from './admn-addemployer/admn-addemployer.component';
 import { AdmnJobsComponent } from './admn-jobs/admn-jobs.component';
 import { JobListComponent } from './job-list/job-list.component';
@@ -64,7 +67,10 @@ const routes: Routes = [
     {path : "contact", component :StudContactUspageComponent},
     {path : "profile", component :StudProfilepageComponent},
     {path : "settings", component :StudSettingspageComponent},
-    {path : "updatepg2", component :StudFormP2Component}
+    {path : "updatepg2", component :StudFormP2Component},
+    {path : "apply", component :StudApplyComponent},
+    {path : "home", component : StudHomeComponent},
+    {path : "history", component : StudJobhistoryComponent}
   
   ]
   },
