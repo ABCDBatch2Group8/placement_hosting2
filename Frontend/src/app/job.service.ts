@@ -31,15 +31,15 @@ export class JobService {
     .subscribe(data => {console.log(data)})
   }
   
-  year_shortlist(year:any){
-    return this.http.get<any>(`${this.server_address}/job/sl/year`+year)
+  year_shortlist(params:any){
+    return this.http.get<any>(`${this.server_address}/job/sl/year`,{params})
   }
  
   skill_shortlist(){
     return this.http.get<any>(`${this.server_address}/job/sl/skill`)
   }
 
-  course_shortlist({params}:any){
+  course_shortlist(params:any){
     return this.http.get<any>(`${this.server_address}/job/sl/course`,{params})
   }
 
