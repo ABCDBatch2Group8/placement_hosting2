@@ -17,8 +17,10 @@ export class Courses{
 })
 
 export class AdmnCourseComponent implements OnInit {
-  
+displayStyle = "none";
+showform="none";
 courses:Courses[]=[];
+ref:any;
 
 Course={
   course:'',
@@ -43,19 +45,31 @@ this.http.get<any>("http://localhost:3000/admin/showcourse").subscribe(
 )
 }
 newCourse(){
-  
   const newcourse={
     course:this.Course.course,
     category:this.Course.category,
     
   }
   this.admn.newCourse(newcourse);
-  this.router.navigate(['admin/courses'])
+  this.showform="none";
 }
-toDelete(course:any){
-this.admn.deleteCourse(course._id).subscribe((data)=>{
-  this.courses=this.courses.filter(p=>p!=course);
-  this.router.navigate(['admin/courses'])
-})
+getId(crs:any){
+this.ref=crs._id;
+this.displayStyle = "block";
 }
+closePopup() {
+  this.displayStyle = "none";    
+}
+toDelete(courseid:any){
+  this.admn.deleteCourse(courseid).subscribe((data)=>{
+    this.course=JSON.parse(JSON.stringify(data))
+    this.displayStyle = "none"; 
+    // this.courses=this.courses.filter(p=>p!=course);
+    // this.router.navigate(['admin/dashboard'])
+  })
+  }
+  popform()
+  {
+    this.showform="block";
+  }
 }

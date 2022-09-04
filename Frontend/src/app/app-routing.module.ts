@@ -27,9 +27,19 @@ import { StudContactUspageComponent } from './stud-contact-uspage/stud-contact-u
 import { StudProfilepageComponent } from './stud-profilepage/stud-profilepage.component';
 import { StudSettingspageComponent } from './stud-settingspage/stud-settingspage.component';
 import { StudFormP2Component } from './stud-form-p2/stud-form-p2.component';
+import { AdmnResetComponent } from './admn-reset/admn-reset.component';
+import { AdmnListComponent } from './admn-list/admn-list.component';
 import { StudApplyComponent } from './stud-apply/stud-apply.component';
 import { StudHomeComponent } from './stud-home/stud-home.component';
 import { StudJobhistoryComponent } from './stud-jobhistory/stud-jobhistory.component';
+import { AdmnAddemployerComponent } from './admn-addemployer/admn-addemployer.component';
+import { AdmnJobsComponent } from './admn-jobs/admn-jobs.component';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobViewComponent } from './job-view/job-view.component';
+import { JobUpdateComponent } from './job-update/job-update.component';
+import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
+import { OfferAddComponent } from './offer-add/offer-add.component';
+
 
 
 const routes: Routes = [
@@ -41,7 +51,13 @@ const routes: Routes = [
     {path : "signup", component : EmpSignupComponent},
     {path : "dashboard", component: EmpDashboardComponent},
     {path : "profile", component: EmpProfileComponent},
-    {path : "job-post", component: JobPostComponent }
+    {path : "job-post", component: JobPostComponent },
+    {path : "job-list", component: JobListComponent },
+    {path : "job-view", component: JobViewComponent },
+    {path : "job-update", component: JobUpdateComponent },
+    {path : "job-shortlist", component: JobShortlistComponent },
+    {path : "offer-add", component: OfferAddComponent }
+    
   ]
   },
   {path : "student", component : StudentComponent,
@@ -69,7 +85,11 @@ const routes: Routes = [
     {path : "ictakstudents",component:AdmnStudentsComponent},
     {path : "employer",component : AdmnEmployerComponent},
     {path : "empsettings",component : AdmnEmpprofileComponent},
-    {path : "candidates", component : AdmnCandidatesComponent}
+    {path : "candidates", component : AdmnCandidatesComponent},
+    {path:  "reset", component : AdmnResetComponent},
+    {path:  "adminlist",component : AdmnListComponent},
+    {path : "addemployer", component : AdmnAddemployerComponent},
+    {path : "joblist", component : AdmnJobsComponent}
   ]
   }
 ];

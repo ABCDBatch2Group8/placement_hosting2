@@ -23,6 +23,9 @@ export class AdmnAuthService {
       console.log(data);
     })
   }
+  editAdmin(){
+    
+  }
   newStudent(stud:any){
     
     return this.http.post('http://localhost:3000/admin/addictkstudent',stud)

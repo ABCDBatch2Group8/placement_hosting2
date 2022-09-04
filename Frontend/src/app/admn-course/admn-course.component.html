@@ -45,7 +45,7 @@
                         <tr *ngFor="let i of courses">                          
                           <td>{{i.course}}</td>
                           <td>{{i.category}}</td>
-                          <td><a href="#" class="genric-btn danger circle fnbtn" (click)="toDelete(i)">Delete</a></td>
+                          <td><a  class="genric-btn danger circle fnbtn" (click)="getId(i)">Delete</a></td>
                         </tr>
                           
                       </tbody>
@@ -73,25 +73,39 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form action="" #submit="ngForm" (ngSubmit)="newCourse()">
+          <form  #submit="ngForm" (ngSubmit)="newCourse()">
                   <div class="form-group">
                       <label for="">Course</label>
-                      <input type="course" name="couse" class="form-control"[(ngModel)]="Course.course"  required>
+                      <input type="course" name="course" class="form-control"[(ngModel)]="Course.course"  required>
                   </div>
                   <div class="form-group">
                       <label for="">Category</label>
                       <input type="category" name="category" class="form-control"[(ngModel)]="Course.category"  required>
                   </div>
               <br>
-              <button class="btn btn-primary" [disabled]="submit.form.invalid">submit</button>
+              <button type="button" class="btn btn-primary" [disabled]="submit.form.invalid" >Submit</button>&nbsp;
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
               </form>
         </div>
-  
-        <!-- Modal footer -->
-        <!-- <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
-        </div> -->
-  
+      </div>
+    </div>
+  </div>
+
+  <div class="modal centeredbox" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        
+        <div class="modal-body alrtbox">
+          <p style="text-align:center;">Are you sure to delete this course? 
+              <br>
+              <button type="button" class="btn btn-danger" (click)="toDelete(ref)" style="padding:20px 30px; margin-top:20px;">
+                Yes
+              </button>&nbsp;
+              <button type="button" class="btn btn-danger" (click)="closePopup()" style="padding:20px 30px; margin-top:20px;">
+                  Cancel
+                </button>
+          </p>  
+        </div>      
       </div>
     </div>
   </div>
