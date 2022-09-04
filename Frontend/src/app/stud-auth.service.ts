@@ -106,6 +106,9 @@ export class StudAuthService {
       return this.http.put<any>("http://localhost:3000/student/dashboard/update",stud)
       .subscribe((data:any) => {console.log(data)})
   }
+  getSkill(){
+    return this.http.get<any>('http://localhost:3000/student/skill')
+  }
   EditProfile2(stud:any){
     console.log("Profile update");
       return this.http.put<any>("http://localhost:3000/student/dashboard/update2",stud)
@@ -121,7 +124,7 @@ export class StudAuthService {
   application(val:any){
     console.log("in service");
     return this.http.put<any>("http://localhost:3000/student/applyjob",val)
-    .subscribe(data => {console.log(data)})
+   
   
 }
 upload(file:any):Observable<any>{

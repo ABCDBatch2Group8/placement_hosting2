@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudAuthService } from '../stud-auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-stud-apply',
@@ -35,7 +36,25 @@ export class StudApplyComponent implements OnInit {
     let id:string|null = localStorage.getItem("stud-id");
     console.log(id)
     let val={id,event}
-    this._apply.application(val)
+    Swal.fire({
+      toast: true,
+      color:'green',
+      // background:'whit',
+      icon: 'success',
+      title: 'Applied successfully',
+      position: 'center-right',
+      showConfirmButton: false,
+      timer: 3000,
+      // timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    }); 
+    this._apply.application(val) 
+    .subscribe(data => {console.log(data)
+      
+    })
     }
 
 }

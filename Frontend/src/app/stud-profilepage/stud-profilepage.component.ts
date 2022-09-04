@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { StudAuthService } from '../stud-auth.service';
 import { Router } from '@angular/router';
 import { studModel } from '../stud-model';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+// import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-stud-profilepage',
@@ -21,16 +23,44 @@ export class StudProfilepageComponent implements OnInit {
   //   stream :'',
   //   password:''
   // };
-  Signin= new studModel('','','', '','','','','','');
 
+   selItems: Array<object> = [];
+
+  Signin= new studModel('','','', '','','','','','',[]);
+  
   Course=[{
     course :'',
     category:''
   }]
 
   constructor(private router:Router,private _auth:StudAuthService) { }
+  
+   dropdownList: Array<Object> = [];
+   selectedItems: Array<object> = [];
+  
+   dropdownSettings:IDropdownSettings={};
 
   ngOnInit(): void {
+    this._auth.getSkill().subscribe(
+      (res:any)=>{
+        this.dropdownList =JSON.parse(JSON.stringify(res));
+      });
+
+
+    console.log("dropdown is",this.dropdownList);
+    
+    this.dropdownSettings  = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      // limitSelection: 5,
+      allowSearchFilter: true
+    };
+    
+  
+
     this._auth.course().subscribe((data:any)=>{
       this.Course=JSON.parse(JSON.stringify(data));
       console.log(data)
@@ -39,12 +69,14 @@ export class StudProfilepageComponent implements OnInit {
     let Id = localStorage.getItem("stud-id");
     this._auth.stud_dashboard(Id).subscribe((data:any)=>{
       this.Signin = JSON.parse(JSON.stringify(data));
-      console.log("hai")
-      console.log(this.Signin)
+      // console.log("selitems",this.selItems)
+      // console.log("in stud-update profile p1")
+      // console.log("every data in updateprofile page1",this.Signin)
      
 
     })
   }
+  
   onChange(event:any){
     // if(event.file.length.length>0){
       this.file = event.target.files[0];
@@ -69,8 +101,13 @@ export class StudProfilepageComponent implements OnInit {
   // }
 
   editProf(){
+
     console.log(this.file);
     console.log("name of file="+this.file.name);
+    // console.log("selected items:",this.selectedItems)
+    // this.selItems=this.selectedItems;
+    this.Signin.skills = this.selectedItems;
+    console.log("selitems",this.selItems)
     // let x=JSON.stringify( this.file.name);
     //  this.Signin.resume['x'];
     this._auth.upload(this.file).subscribe((event:any)=>{

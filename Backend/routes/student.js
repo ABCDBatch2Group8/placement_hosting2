@@ -5,6 +5,7 @@ const IctkStudent = require("../models/ictak_student")
 const Course = require("../models/course")
 const Jobs = require("../models/job")
 const multer  = require("multer");
+const Skill = require('../models/skill');
 
 // file upload using multer
 const storage = multer.diskStorage({
@@ -123,6 +124,20 @@ route.get('/dashboard/:id',async (req,res)=>{
     res.json({message: "data not fetched"})
 }
 });
+// to display skills in the update profile section or signin section
+
+route.get('/skill', async (req,res)=>{
+  console.log("in skill route");
+  
+  try{
+      const getSkill = await Skill.find()
+      res.send(getSkill);
+      console.log("getSkill"+getSkill);
+  }catch(err){
+      console.log("In error /Skill");
+      res.json({message: err})
+  }
+})
 
 
 route.put('/dashboard/update', async (req, res) => {
@@ -130,6 +145,7 @@ route.put('/dashboard/update', async (req, res) => {
   // console.log(req.body); 
   // console.log(req.body._id); 
   console.log( "in update backend", req.body)  
+  // console.log("skills backend",re)
   
   try{
   await Student.findByIdAndUpdate({"_id":req.body._id},
@@ -141,7 +157,8 @@ route.put('/dashboard/update', async (req, res) => {
                   "password": req.body.password,      
                   "qualification": req.body.qualification,
                   "stream": req.body.stream,
-                  "resume":req.body.resume
+                  "resume":req.body.resume,
+                  "skills":req.body.skills
                   
            }}     
   )}catch(err){
@@ -159,7 +176,7 @@ route.put('/dashboard/update2', async (req, res) => {
   try{
   await Student.findByIdAndUpdate({"_id":req.body._id},
            {$set:{"courseStatus":req.body.courseStatus,
-                  "ictMarks":req.body.ictMarks,
+                  "ICTAKscore":req.body.ictMarks,
                   "location":req.body.location,
                   "readyToRelocate":req.body.readyToRelocate,
                   "employmentStatus":req.body.employmentStatus,
@@ -176,20 +193,7 @@ route.put('/dashboard/update2', async (req, res) => {
    }   
 }); 
 
-// jobs displaying
-// route.get('/history/:id',async (req,res)=>{
-//   console.log("in history get req :",req.params);
-//   try{
-//     const id = req.params.id;
-//     const stud_data = await Student.findById({"_id":id}); 
-//     res.json(stud_data);
-//     console.log("student data"+stud_data);
-// }catch(err){
-//     console.log("profile data not correct");
-//     res.json({message: "data not fetched"})
-// }
-// });
-// ??????????????pending
+
 route.get("/jobListing",(req,res)=>{
   let date= new Date().toISOString();
   Jobs.find( { $and:[{ start_date: { $lte: date } },{ end_date: { $gte: date } }] }).sort({start_date: -1}).then(function(job){
@@ -249,6 +253,7 @@ route.get('/history/:id',async (req,res)=>{
     res.json({message: "data not fetched"})
 }
 });
+
 
 
 
