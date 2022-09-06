@@ -14,28 +14,36 @@ getJob = [{
 // Job posting by the employer
 router.post('/jobpost', (req, res) => {
 
-  const job = new Job({
-    jobid: req.body.Job.jobid,
-    position: req.body.Job.position,
-    emp_ref: req.body.Job.emp_ref,
-    company: req.body.Job.company,
-    jd_text: req.body.Job.jd_text,
-    number: req.body.Job.number,
-    salary: req.body.Job.salary,
-    skills: req.body.Job.skills,
-    location: req.body.Job.location,
-    start_date: req.body.Job.start_date,
-    end_date: req.body.Job.end_date
+  Job.findOne({ "jobid": req.body.job.jobid }).then(function (getJobid) {
+    if (getJobid == null) {
+      const job = new Job({
+        jobid: req.body.Job.jobid,
+        position: req.body.Job.position,
+        emp_ref: req.body.Job.emp_ref,
+        company: req.body.Job.company,
+        jd_text: req.body.Job.jd_text,
+        number: req.body.Job.number,
+        salary: req.body.Job.salary,
+        skills: req.body.Job.skills,
+        location: req.body.Job.location,
+        start_date: req.body.Job.start_date,
+        end_date: req.body.Job.end_date
+      })
+      job.save()
+        .then(data => {
+          res.json({ "message": "Successfully registered", "status": "success" });
+          console.log("success")
+        })
+        .catch(err => {
+          res.json({ "message": err, "status": "error" });
+          console.log("error", err)
+        })
+    }
+    else {
+      console.log("Job Id exists")
+      res.json({ "message": "JobId already exists. Please update the job" })
+    }
   })
-  job.save()
-    .then(data => {
-      res.json({ "message": "Successfully registered", "status": "success" });
-      console.log("success")
-    })
-    .catch(err => {
-      res.json({ "message": err, "status": "error" });
-      console.log("error", err)
-    })
 });
 
 // Get the list of jobs posted in job collection
@@ -68,13 +76,13 @@ router.get('/jobview/:id', async (req, res) => {
   }
 });
 
-studDetails1 = [{
-  qualification: '',
-  stream: '',
-  employmentStatus: '',
-  careerBreak: '',
-  YearOfPassout: null
-}]
+// studDetails1 = [{
+//   qualification: '',
+//   stream: '',
+//   employmentStatus: '',
+//   careerBreak: '',
+//   YearOfPassout: null
+// }]
 
 
 //If shortlisting is based on year of pass out alone
@@ -88,7 +96,7 @@ router.get('/sl/year', async (req, res) => {
     const getApp = await Job.findById({ "_id": id }, { "applicants": 1 });
     // res.json(getJob);
     console.log("getApp" + getApp);
-    studDetails1 = []
+    studDetails = []
     try {
       console.log("student ref", getApp.applicants[0].stud_ref);
       for (let i = 0; i < getApp.applicants.length; i++) {
@@ -97,11 +105,11 @@ router.get('/sl/year', async (req, res) => {
         const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1 })
         console.log("get pasout is ", getStud.YearOfPassout)
         if (getStud.YearOfPassout >= passout) {
-          studDetails1.push(getStud);
+          studDetails.push(getStud);
         }
       }
-      console.log("studDetails", studDetails1)
-      res.json(studDetails1)
+      console.log("studDetails", studDetails)
+      res.json(studDetails)
     } catch (err) {
       console.log("In error /shortlist");
       console.log("error is", err)
@@ -114,14 +122,61 @@ router.get('/sl/year', async (req, res) => {
   }
 });
 
-studDetails2 = [{
-  qualification: '',
-  stream: '',
-  employmentStatus: '',
-  careerBreak: '',
-  ICTAKscor: null,
-  courseInICTAK:''
-}]
+// studDetails2 = [{
+//   qualification: '',
+//   stream: '',
+//   employmentStatus: '',
+//   careerBreak: '',
+//   ICTAKscor: null,
+//   courseInICTAK: ''
+// }]
+// If shortlisting is based on skills provided in the job description
+// Tested query
+router.get('/sl/skill', async (req, res) => {
+  console.log("in skill shortlist");
+  console.log(req.query);
+  try {
+    const id = req.query.jobId;
+    const getJob = await Job.findById({ "_id": id }, { "applicants": 1, "skills": 1 });
+    console.log("getJob" + getJob);
+    studDetails = []
+    try {
+      loop1:
+      for (let i = 0; i < getJob.applicants.length; i++) {
+
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref },
+          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "skills": 1, "courseInICTAK": 1 })
+        // var count = 0;
+        loop2:
+        for (let j = 0; j < getJob.skills.length; j++) {
+          loop3:
+          for (let k = 0; k < getStud.skills.length; k++) {
+            console.log("i=", i)
+            console.log("jobskill", j, getJob.skills[j].item_text)
+            console.log("studskill", k, getStud.skills[k].item_text)
+            if ((getJob.skills[j].item_text.toUpperCase()) === (getStud.skills[k].item_text.toUpperCase())) {
+              studDetails.push(getStud);
+              console.log("matched")
+              // If atleast one skill is matched, shortlist that applicant
+              break loop2;
+            }
+          }
+        }
+      }
+      res.json(studDetails)
+      console.log("studDetails", studDetails)
+    } catch (err) {
+      console.log("In error /shortlist");
+      console.log("error is", err)
+      res.json({ message: err })
+    }
+  } catch (err) {
+    console.log("In error /shortlist");
+    console.log("error is", err)
+    res.json({ message: err })
+  }
+});
+
 // If shortlisting is based on course in ICTAK
 // Tested query
 router.get('/sl/course', async (req, res) => {
@@ -132,18 +187,215 @@ router.get('/sl/course', async (req, res) => {
     const course = req.query.course;
     const getApp = await Job.findById({ "_id": id }, { "applicants": 1 });
     console.log("getApp" + getApp);
-    studDetails2 = []
+    studDetails = []
     try {
-        for (let i = 0; i < getApp.applicants.length; i++) {
-        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref}, 
-        { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "ICTAKscore": 1, "courseInICTAK":1})
+      for (let i = 0; i < getApp.applicants.length; i++) {
+        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref },
+          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
         if (getStud.courseInICTAK == course) {
-          if (getStud.ICTAKscore >= 40){
-            studDetails2.push(getStud);
+          if (getStud.ICTAKscore >= 40) {
+            studDetails.push(getStud);
+          }
         }
+      }
+      res.json(studDetails)
+    } catch (err) {
+      console.log("In error /shortlist");
+      console.log("error is", err)
+      res.json({ message: err })
+    }
+  } catch (err) {
+    console.log("In error /shortlist");
+    console.log("error is", err)
+    res.json({ message: err })
+  }
+});
+
+
+//If shortlisting is based on year of pass out and course in ICTAK
+// Tested query
+router.get('/sl/cy', async (req, res) => {
+  console.log("in cy shortlist");
+  console.log(req.query);
+  try {
+    const id = req.query.jobId;
+    const passout = req.query.yop;
+    const course = req.query.course;
+    const getApp = await Job.findById({ "_id": id }, { "applicants": 1 });
+    console.log("getApp" + getApp);
+    studDetails = []
+    try {
+      console.log("student ref", getApp.applicants[0].stud_ref);
+      for (let i = 0; i < getApp.applicants.length; i++) {
+        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        if ((getStud.YearOfPassout >= passout) & (getStud.courseInICTAK == course) & (getStud.ICTAKscore >= 40)) {
+          studDetails.push(getStud);
+          //   }
+          // }
         }
+      }
+
+      console.log("studDetails", studDetails)
+      res.json(studDetails4)
+    } catch (err) {
+      console.log("In error /shortlist");
+      console.log("error is", err)
+      res.json({ message: err })
+    }
+  } catch (err) {
+    console.log("In error /shortlist");
+    console.log("error is", err)
+    res.json({ message: err })
+  }
+});
+
+//If shortlisting is based on year of pass out and matching skills
+// Tested query
+router.get('/sl/ys', async (req, res) => {
+  console.log("in ys shortlist");
+  console.log(req.query);
+  try {
+    const id = req.query.jobId;
+    const passout = req.query.yop;
+    const getJob = await Job.findById({ "_id": id }, { "applicants": 1, "skills": 1 });
+    console.log("getJob" + getJob);
+    studDetails = []
+    try {
+      console.log("length", getJob.applicants.length);
+      loop1:
+      for (let i = 0; i < getJob.applicants.length; i++) {
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1,"skills": 1 , "ICTAKscore": 1, "courseInICTAK": 1 })
+        loop2:
+        if ((getStud.YearOfPassout >= passout)) {
+          console.log("hi",getJob.skills.length);
+          loop3:
+          for (let j = 0; j < getJob.skills.length; j++) {
+            loop4:
+            for (let k = 0; k < getStud.skills.length; k++) {
+              console.log("i=", i)
+              console.log("jobskill", j, getJob.skills[j].item_text)
+              console.log("studskill", k, getStud.skills[k].item_text)
+              if ((getJob.skills[j].item_text.toUpperCase()) === (getStud.skills[k].item_text.toUpperCase())) {
+                studDetails.push(getStud);
+                console.log("matched")
+                // If atleast one skill is matched, shortlist that applicant
+                break loop3;
+              }
+            }
+          }
         }
-      res.json(studDetails2)
+      }
+
+      console.log("studDetails", studDetails)
+      res.json(studDetails)
+    } catch (err) {
+      console.log("In error /shortlist");
+      console.log("error is", err)
+      res.json({ message: err })
+    }
+  } catch (err) {
+    console.log("In error /shortlist");
+    console.log("error is", err)
+    res.json({ message: err })
+  }
+});
+
+//If shortlisting is based on course in ICTAK and matching skills
+// Tested query
+router.get('/sl/sc', async (req, res) => {
+  console.log("in sc shortlist");
+  console.log(req.query);
+  try {
+    const id = req.query.jobId;
+    const skill = req.query.skill;
+    const course = req.query.course;
+    const getJob = await Job.findById({ "_id": id }, { "applicants": 1 ,"skills":1});
+    console.log("getJob" + getJob);
+    studDetails = []
+    try {
+      console.log("length", getJob.applicants.length);
+      loop1:
+      for (let i = 0; i < getJob.applicants.length; i++) {
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1,"skills": 1 , "ICTAKscore": 1, "courseInICTAK": 1 })
+        loop2:
+        if ((getStud.courseInICTAK == course) & (getStud.ICTAKscore >= 40)){
+          console.log("hi",getJob.skills.length);
+          loop3:
+          for (let j = 0; j < getJob.skills.length; j++) {
+            loop4:
+            for (let k = 0; k < getStud.skills.length; k++) {
+              console.log("i=", i)
+              console.log("jobskill", j, getJob.skills[j].item_text)
+              console.log("studskill", k, getStud.skills[k].item_text)
+              if ((getJob.skills[j].item_text.toUpperCase()) === (getStud.skills[k].item_text.toUpperCase())) {
+                studDetails.push(getStud);
+                console.log("matched")
+                // If atleast one skill is matched, shortlist that applicant
+                break loop3;
+              }
+            }
+          }
+        }
+      }
+      console.log("studDetails", studDetails)
+      res.json(studDetails)
+    } catch (err) {
+      console.log("In error /shortlist");
+      console.log("error is", err)
+      res.json({ message: err })
+    }
+  } catch (err) {
+    console.log("In error /shortlist");
+    console.log("error is", err)
+    res.json({ message: err })
+  }
+});
+
+//If shortlisting is based on year of passout, course in ICTAK and matching skills
+// Tested query
+router.get('/sl/ysc', async (req, res) => {
+  console.log("in ysc shortlist");
+  console.log(req.query);
+  try {
+    const id = req.query.jobId;
+    const passout = req.query.yop;
+    const course = req.query.course;
+    console.log("passout,course",passout,course)
+    const getJob = await Job.findById({ "_id": id }, { "applicants": 1 ,"skills":1});
+    console.log("getJob" + getJob);
+    studDetails = []
+    try {
+      console.log("length", getJob.applicants.length);
+      loop1:
+      for (let i = 0; i < getJob.applicants.length; i++) {
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1,"skills": 1 , "ICTAKscore": 1, "courseInICTAK": 1 })
+        console.log("loop1:")
+        loop2:
+        console.log("psout",getStud.YearOfPassout)
+        console.log("courseICTAK",getStud.courseInICTAK)
+        console.log("score",getStud.ICTAKscore)
+
+        if ((getStud.YearOfPassout >= passout) & (getStud.courseInICTAK == course) & (getStud.ICTAKscore >= 40)){
+          console.log("hi",getJob.skills.length);
+          loop3:
+          for (let j = 0; j < getJob.skills.length; j++) {
+            loop4:
+            for (let k = 0; k < getStud.skills.length; k++) {
+              console.log("i=", i)
+              console.log("jobskill", j, getJob.skills[j].item_text)
+              console.log("studskill", k, getStud.skills[k].item_text)
+              if ((getJob.skills[j].item_text.toUpperCase()) === (getStud.skills[k].item_text.toUpperCase())) {
+                studDetails.push(getStud);
+                console.log("matched")
+                // If atleast one skill is matched, shortlist that applicant
+                break loop3;
+              }
+            }
+          }
+        }
+      }
+      console.log("studDetails", studDetails)
+      res.json(studDetails)
     } catch (err) {
       console.log("In error /shortlist");
       console.log("error is", err)
