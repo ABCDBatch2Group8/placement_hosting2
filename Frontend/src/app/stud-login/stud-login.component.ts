@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import Swal from 'sweetalert2';
 import { StudAuthService } from '../stud-auth.service';
+import { HeaderService } from '../header.service';
 
 @Component({
   selector: 'app-stud-login',
@@ -12,9 +13,10 @@ export class StudLoginComponent implements OnInit {
 
   user={email:'',
   password:''}
-  constructor(private _auth: StudAuthService,private _router:Router) { }
+  constructor(private headservice : HeaderService,private _auth: StudAuthService,private _router:Router) { }
 
   ngOnInit(): void {
+    this.headservice.setMenu("general");
   }
   loginUser () {
     
@@ -43,6 +45,7 @@ export class StudLoginComponent implements OnInit {
             else{
               console.log("res id is",res.id);
               localStorage.setItem('stud-id',res.id);
+              localStorage.setItem("AuthUser","student");
             // localStorage.setItem('token', res.token)
             Swal.fire({
               toast: true,

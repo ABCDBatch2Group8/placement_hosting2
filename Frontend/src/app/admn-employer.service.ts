@@ -67,4 +67,8 @@ export class AdmnEmployerService {
     return this.http.get("http://localhost:3000/admin/joblistings");
   }
 
+  setApplicantsList(jobid:any){
+    return this.http.get("http://localhost:3000/admin/jobpreview/"+jobid);
+  }
+
 }

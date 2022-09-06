@@ -326,11 +326,11 @@ router.get('/employerjoblist/:id',function(req,res){
 //RETURN JOB DETAILS
 router.get('/jobpreview/:id',function(req,res){
     const jid = req.params.id;
-    console.log(jid);
+   // console.log(jid);
     
     jobsModels.findOne({_id: jid})
       .then((jobview)=>{
-        console.log(jobview);
+       // console.log(jobview);
           res.send(jobview);
       }); 
         
@@ -345,6 +345,18 @@ router.get('/joblistings',function(req,res){
           //console.log(joblist);
       }); 
         
+});
+
+//GET APPLICATIONS LIST FOR JOBS
+router.get('/jobapplications/:id',function(req,res){
+    const jobid = req.params.id;
+    //console.log(jobid);
+
+    jobsModels.find({"_id" : jobid}, {position:1, applicants:1})
+      .then((applnlist)=>{
+          res.send(applnlist);
+          console.log(applnlist);
+      }); 
 });
 
 
