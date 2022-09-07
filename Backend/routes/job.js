@@ -102,7 +102,7 @@ router.get('/sl/year', async (req, res) => {
       for (let i = 0; i < getApp.applicants.length; i++) {
         // sid = getApp.applicants[i].stud_ref
         console.log("student ref", i, getApp.applicants[i].stud_ref);
-        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1 })
+        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1,"skills": 1 , "ICTAKscore": 1, "courseInICTAK": 1 })
         console.log("get pasout is ", getStud.YearOfPassout)
         if (getStud.YearOfPassout >= passout) {
           studDetails.push(getStud);
@@ -145,7 +145,7 @@ router.get('/sl/skill', async (req, res) => {
       for (let i = 0; i < getJob.applicants.length; i++) {
 
         const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref },
-          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "skills": 1, "courseInICTAK": 1 })
+        { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1,"skills": 1 , "ICTAKscore": 1, "courseInICTAK": 1 })
         // var count = 0;
         loop2:
         for (let j = 0; j < getJob.skills.length; j++) {
@@ -192,13 +192,17 @@ router.get('/sl/course', async (req, res) => {
       for (let i = 0; i < getApp.applicants.length; i++) {
         const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref },
           { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
-        if (getStud.courseInICTAK == course) {
+          console.log("course are",getStud.courseInICTAK,course);
+          if (getStud.courseInICTAK == course) {
+            console.log("ICTAK score",getStud.ICTAKscore);
           if (getStud.ICTAKscore >= 40) {
+            console.log("push");
             studDetails.push(getStud);
           }
         }
       }
       res.json(studDetails)
+      console.log("studdetails",studDetails);
     } catch (err) {
       console.log("In error /shortlist");
       console.log("error is", err)
@@ -227,7 +231,7 @@ router.get('/sl/cy', async (req, res) => {
     try {
       console.log("student ref", getApp.applicants[0].stud_ref);
       for (let i = 0; i < getApp.applicants.length; i++) {
-        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1,"skills": 1 , "ICTAKscore": 1, "courseInICTAK": 1 })
         if ((getStud.YearOfPassout >= passout) & (getStud.courseInICTAK == course) & (getStud.ICTAKscore >= 40)) {
           studDetails.push(getStud);
           //   }
@@ -236,7 +240,7 @@ router.get('/sl/cy', async (req, res) => {
       }
 
       console.log("studDetails", studDetails)
-      res.json(studDetails4)
+      res.json(studDetails)
     } catch (err) {
       console.log("In error /shortlist");
       console.log("error is", err)

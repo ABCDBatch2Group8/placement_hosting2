@@ -20,6 +20,7 @@ export class JobViewComponent implements OnInit {
 
   ngOnInit(): void {
     let jobId = localStorage.getItem("JobId");
+    console.log("jobid in view is",jobId)
     this.jobService.jobDetails(jobId).subscribe((data:any)=>{
       this.viewJob = JSON.parse(JSON.stringify(data));
             
