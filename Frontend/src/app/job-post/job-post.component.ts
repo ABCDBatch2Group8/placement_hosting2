@@ -52,11 +52,11 @@ AddJob(){
     console.log ("To insert in job",this.addJob)
     console.log("selitems",this.selItems)
     this.jobService.newJobs(this.addJob)
-    // .subscribe(
-    //   (res:any) => {  
-    //     alert("res.message")
-    //   })
+    .subscribe(
+      (res:any) => {  
+        alert(res.message)
+      })
     this.router.navigate(['employer/dashboard']);
-    alert ("success")
+    // alert ("success")
 }
 }
