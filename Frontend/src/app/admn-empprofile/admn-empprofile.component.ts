@@ -37,8 +37,8 @@ export class AdmnEmpprofileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // let empid = localStorage.getItem('editEmployerId');   
-    let empid = localStorage.getItem('EmpId'); 
+     let empid = localStorage.getItem('editEmployerId');   
+    //let empid = localStorage.getItem('EmpId');    
     this.admnemployer.setEmpProfile(empid).subscribe((data)=>{
     this.employerview=JSON.parse(JSON.stringify(data));
     this.employeredit = JSON.parse(JSON.stringify(data));
@@ -80,6 +80,10 @@ export class AdmnEmpprofileComponent implements OnInit {
       this.displayStyle = "block";       
     }
 
+  }
+
+  listApplications(jobid:any){    
+    this.route.navigate(['admin/applications',jobid]);
   }
 
   previewJob(jobid:any){
