@@ -306,4 +306,11 @@ query1(jobid:any,passout:any){
 
 //     //*********************query7 */
 
+markStatus(data:any){
+  
+  console.log("update student status params",data._id)
+  this.jobService.markAsShortlist(data._id).subscribe((data:any)=>{
+    console.log("shortlisted", data)
+})
+}
 }

@@ -54,9 +54,9 @@ AddJob(){
     this.jobService.newJobs(this.addJob)
     .subscribe(
       (res:any) => {  
-        alert("res.message")
+        alert(res.message)
       })
     this.router.navigate(['employer/dashboard']);
-    alert ("success")
+    // alert ("success")
 }
 }

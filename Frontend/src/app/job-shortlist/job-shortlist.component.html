@@ -84,7 +84,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <tr *ngFor = 'let data of shortlistData'>
+                      <tr *ngFor = 'let data of shortlistData, '>
     
                           <td>{{ data.qualification }}</td>
                           <td>{{ data.stream }}</td>
@@ -94,13 +94,11 @@
                           <td>{{ data.careerBreak }}</td>
                           <td>{{ data.courseInICTAK }}</td>
                           <td>{{ data.ICTAKscore }}</td>
-                          <!-- <td><button class="btn btn-warning" style="cursor:pointer"  (click)="viewJob(job)" style="margin-left: 20px;" > View details</button> -->
-                          <!-- </td> -->
+                          <td><button (click)="markStatus(data)" class="btn btn-primary">Mark as shorlisted</button></td>
                       </tr>
                   </tbody>
               </table>
           </div>
-    
       </div>
     </div>
     </div>
