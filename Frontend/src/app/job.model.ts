@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 export class JobModel {
     constructor(
         public jobid: String,
