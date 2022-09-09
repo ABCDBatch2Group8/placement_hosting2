@@ -16,8 +16,9 @@ export class HeaderService {
     {
       this.dispmenu = `<li><a href="student/home">Home</a></li>
                       <li><a href="student/job">Find Jobs </a></li>
-                      <li><a routerLink="">Listing</a></li>
-                      <li><a href="student/contact">Contact</a></li>`;
+                      <li><a href="student/contact">Contact</a></li>
+                      <li><a href="">Logout</a></li>`;
+                      
     }
     else if(authgrade=="employer")
     {

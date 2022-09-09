@@ -7,14 +7,12 @@ import { HeaderService } from '../header.service';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-
   authsect:any;
 
   constructor(private headservice : HeaderService) { }
 
   ngOnInit(): void {
     this.authsect=localStorage.getItem("AuthUser");
-    //alert(this.authsect);
     if(this.authsect=="employer"){
       this.headservice.setMenu("employer");
     }

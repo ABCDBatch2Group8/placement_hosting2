@@ -33,9 +33,23 @@ const SignupSchema = new Schema({
     location:           { type: String },
     readyToRelocate:    { type: String },
     employmentStatus:   { type: String },
+    careerBreak:        { type: String },
+
+
+    YearOfPassout:      { type: Number },
+
+    educationMarks:     {
+        Mark10:           { type: Number },
+        Mark12:           { type: Number },
+      QualificationMark:  { type: Number },
+    },
+
+    courseStatus:       { type: String },
+    ICTAKscore:         { type: Number },
+    location:           { type: String },
+    readyToRelocate:    { type: String },
+    employmentStatus:   { type: String },
     careerBreak:        { type: String }
-
-
 });
 const Student = mongoose.model("Student", SignupSchema);
 module.exports = Student;
