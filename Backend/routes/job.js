@@ -514,5 +514,47 @@ router.put('/mark/sl', async (req, res) => {
   console.log("at end")
 });
 
+router.get('/get/sl', async (req, res) => {
+  console.log("in job route get");
+  console.log(req.query);
+
+  try {
+    getJob = await Job.findOne({jobid:req.query.jobId}, { "emp_ref": 1, "applicants": 1 })
+    console.log("emp ref are ",getJob.emp_ref,req.query.empId)
+    if (getJob.emp_ref != req.query.empId){
+      console.log("wron employer")
+      res.json({ "message": "JobId posted by another employer. No access to update the status" })
+    }
+    else{
+      console.log("right employer")
+      let display = [{
+        name: '',
+        email: '',
+        application_status: '' 
+      }]
+      let j=0;
+      console.log("getJob is",getJob)
+      for(let i=0;i<getJob.applicants.length;i++){
+          console.log("getJob.applicants[i].shortlist_status",getJob.applicants[i].shortlist_status)
+        if (getJob.applicants[i].shortlist_status === true){
+          console.log("shortlisted")
+          getStuden = await Student.findById(getJob.applicants[i].stud_ref)
+            display[j].name = getStuden.name;
+            display[j].email = getStuden.email;
+            display[j].application_status = getJob.applicants[i].application_status
+            console.log("display",j,display[j])
+        }
+      }
+      console.log("display" + display);
+      res.send(display);
+    }
+    
+  } catch (err) {
+    console.log("In error /job get");
+    console.log("error is", err)
+    res.json({ message: err })
+  }
+});
+
 
 module.exports = router;

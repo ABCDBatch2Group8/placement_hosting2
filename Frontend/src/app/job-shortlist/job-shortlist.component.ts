@@ -4,6 +4,7 @@ import { JobService } from '../job.service';
 import { Router } from '@angular/router';
 import { StudAuthService } from '../stud-auth.service';
 import { NgForm } from '@angular/forms';
+import { HeaderService } from '../header.service';
 
 @Component({
   selector: 'app-job-shortlist',
@@ -23,7 +24,7 @@ export class JobShortlistComponent implements OnInit {
   skilstore = [{item_num: Number,item_text:String}];
 
 
-  constructor(private jobService: JobService, private auth: StudAuthService, private router: Router) { }
+  constructor(private headservice : HeaderService,private jobService: JobService, private auth: StudAuthService, private router: Router) { }
 
   // *********************query1
 
@@ -105,6 +106,7 @@ export class JobShortlistComponent implements OnInit {
   // courseInICT: String = '';
 
   ngOnInit(): void {
+    this.headservice.setMenu("employer");
     this.auth.course().subscribe((data: any) => {
       this.Course = JSON.parse(JSON.stringify(data));
       console.log(data)

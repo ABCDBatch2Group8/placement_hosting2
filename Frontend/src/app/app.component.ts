@@ -10,10 +10,10 @@ export class AppComponent {
 
   /*
   constructor() {   
-    window.onbeforeunload = function() {
-      localStorage.clear();
-      return '';
-    };
+    // window.onbeforeunload = function() {
+    //   localStorage.clear();
+    //   return '';
+    // };
   }
   */
 }

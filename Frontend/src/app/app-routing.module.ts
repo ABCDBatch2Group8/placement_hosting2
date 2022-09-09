@@ -40,6 +40,7 @@ import { JobUpdateComponent } from './job-update/job-update.component';
 import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
 import { OfferAddComponent } from './offer-add/offer-add.component';
 import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapplications.component';
+import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.component';
 
 
 
@@ -57,7 +58,8 @@ const routes: Routes = [
     {path : "job-view", component: JobViewComponent },
     {path : "job-update", component: JobUpdateComponent },
     {path : "job-shortlist", component: JobShortlistComponent },
-    {path : "offer-add", component: OfferAddComponent }
+    {path : "offer-add", component: OfferAddComponent },
+    {path : "appln-status", component: JobApplnStatusComponent }
     
   ]
   },
