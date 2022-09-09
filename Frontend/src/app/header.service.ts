@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class HeaderService {
   dispmenu = "<li><a>&nbsp;</a></li>";
   public navmenu = new BehaviorSubject(this.dispmenu);
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   setMenu(authgrade:any) {
     if(authgrade=="student")
@@ -17,7 +18,7 @@ export class HeaderService {
       this.dispmenu = `<li><a href="student/home">Home</a></li>
                       <li><a href="student/job">Find Jobs </a></li>
                       <li><a href="student/contact">Contact</a></li>
-                      <li><a href="">Logout</a></li>`;
+                      <li><a href="logout">Logout</a></li>`;
                       
     }
     else if(authgrade=="employer")
@@ -31,7 +32,7 @@ export class HeaderService {
                           <li><a href="/employer/offer-add">Add Offer</a></li>                          
                           </ul>
                       </li>
-                      <li><a href="">Logout</a></li>`;
+                      <li><a href="logout">Logout</a></li>`;
     }
     else{
       this.dispmenu = "<li><a>&nbsp;</a></li>";

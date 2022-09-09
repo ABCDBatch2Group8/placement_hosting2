@@ -60,5 +60,4 @@ export class EmpLoginComponent implements OnInit {
   ngOnInit(): void {
     this.headservice.setMenu("general");
   }
-
 }

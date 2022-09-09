@@ -56,6 +56,7 @@ import { OfferAddComponent } from './offer-add/offer-add.component';
 import { OfferService } from './offer.service';
 import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapplications.component';
 import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.com
     JobViewComponent,
     OfferAddComponent,
     AdmnJobapplicationsComponent,
-    JobApplnStatusComponent
+    JobApplnStatusComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
