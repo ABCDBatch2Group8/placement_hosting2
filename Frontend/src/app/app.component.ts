@@ -8,11 +8,12 @@ import { Component} from '@angular/core';
 export class AppComponent {  
   title = 'Frontend';
 
+  /*
   constructor() {   
     // window.onbeforeunload = function() {
     //   localStorage.clear();
     //   return '';
     // };
   }
-  
+  */
 }

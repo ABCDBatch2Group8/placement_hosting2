@@ -148,16 +148,35 @@
                                                 <td>{{ job.start_date | date:'dd/MM/yyyy'}}</td>
             
                                                 <td>
-                                                    <a (click)="listApplications(job._id)"class="genric-btn primary btgreen circle fnbtn">{{job.applicants.length}}</a>                                                   
+                                                    <a (click)="listApplications(job._id)" class="genric-btn primary btgreen circle fnbtn">{{job.applicants.length}}</a>                                                   
                                                 </td>
             
                                                 <td><a (click)="previewJob(job._id)" class="genric-btn primary circle fnbtn"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
             
-                                                <td><a  class="genric-btn danger circle fnbtn"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                                <td><a  (click)="delJobrecord(job._id)" class="genric-btn danger circle fnbtn"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                                                 
                                             </tr>
                                         </tbody>
                                     </table>
+                            
+                                    <div class="modal centeredbox" tabindex="-1" role="dialog" [ngStyle]="{'display':jobdelStyle}">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            
+                                            <div class="modal-body alrtbox">
+                                              <p style="text-align:center;">Are you sure to delete this Job? 
+                                                  <br>
+                                                  <button type="button" class="btn btn-danger" (click)="processdelete(removerreferer)" style="padding:20px 30px; margin-top:20px;">
+                                                    Yes
+                                                  </button>&nbsp;
+                                                  <button type="button" class="btn btn-danger" (click)="closeDelup()" style="padding:20px 30px; margin-top:20px;">
+                                                      Cancel
+                                                    </button>
+                                              </p>  
+                                            </div>      
+                                          </div>
+                                        </div>
+                                      </div> 
 
                             <!--Job Preview starts-->
                             <div class="modal previewbox" tabindex="-1" role="dialog" [ngStyle]="{'display':previewStyle}">
