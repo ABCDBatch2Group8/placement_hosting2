@@ -19,7 +19,8 @@ export class JobListComponent implements OnInit {
     constructor(private jobService: JobService, private router: Router) { }
 
   ngOnInit(): void {
-    this.jobService.getJobs().subscribe((data:any)=>{
+    let empRef = localStorage.getItem("EmpId");
+    this.jobService.getJobs(empRef).subscribe((data:any)=>{
       console.log("data")
       console.log(data);
     this.listJob = JSON.parse(JSON.stringify(data));
