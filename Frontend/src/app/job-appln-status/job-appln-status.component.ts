@@ -26,6 +26,7 @@ export class JobApplnStatusComponent implements OnInit {
   // .set ( "empid", this.empid)
 
   ngOnInit(): void {
+    this.headservice.setMenu("employer");
   }
   getList(jobid:any){
     let empId = (localStorage.getItem("EmpId")!);
