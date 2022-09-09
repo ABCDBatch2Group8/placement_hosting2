@@ -16,7 +16,6 @@ export class HeaderService {
     {
       this.dispmenu = `<li><a href="student/home">Home</a></li>
                       <li><a href="student/job">Find Jobs </a></li>
-                      <li><a routerLink="">Listing</a></li>
                       <li><a href="student/contact">Contact</a></li>
                       <li><a href="">Logout</a></li>`;
                       
@@ -28,7 +27,7 @@ export class HeaderService {
                       <li><a href="/employer/job-list">My Jobs</a></li>
                       <li><a href="#">Candidates</a>
                           <ul class="submenu">
-                          <li><a href="">Update Appln Status</a></li>
+                          <li><a href="employer/appln-status">Update Appln Status</a></li>
                           <li><a href="/employer/offer-add">Add Offer</a></li>                          
                           </ul>
                       </li>
