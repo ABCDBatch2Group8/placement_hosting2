@@ -415,6 +415,22 @@ router.get('/showapplicant/:id',function(req,res){
         
 });
 
+//DELETE JOB
+router.delete('/jobdel/:id',function(req,res){
+    const id = req.params.id;
+    //console.log(id);
+    jobsModels.findByIdAndDelete({"_id":id})
+    .then(()=>{
+        //console.log('delete success')
+        //res.send();
+        jobsModels.find()
+      .then((joblist)=>{
+          res.send(joblist);
+          //console.log(joblist);
+      }); 
+    })
+    
+});
 
 
 module.exports=router;

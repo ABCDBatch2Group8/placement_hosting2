@@ -81,4 +81,9 @@ export class AdmnEmployerService {
     return this.http.get(`${this.server_address}/admin/showapplicant/`+studid);
   }
 
+  deleteJob(jobid:any){
+    //alert('in service');
+    return this.http.delete(`${this.server_address}/admin/jobdel/`+jobid);        
+   }
+
 }
