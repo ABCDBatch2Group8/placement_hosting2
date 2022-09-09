@@ -14,6 +14,7 @@ export class LandingComponent implements OnInit {
 
   ngOnInit(): void {
     this.authsect=localStorage.getItem("AuthUser");
+    //alert(this.authsect);
     if(this.authsect=="employer"){
       this.headservice.setMenu("employer");
     }
