@@ -41,6 +41,7 @@ import { JobShortlistComponent } from './job-shortlist/job-shortlist.component';
 import { OfferAddComponent } from './offer-add/offer-add.component';
 import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapplications.component';
 import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.component';
+import { LogoutComponent } from './logout/logout.component';
 
 
 
@@ -95,7 +96,8 @@ const routes: Routes = [
     {path : "joblist", component : AdmnJobsComponent},
     {path : "applications/:id", component :AdmnJobapplicationsComponent}
   ]
-  }
+  },
+  {path : "logout", component : LogoutComponent }
 ];
 
 @NgModule({
