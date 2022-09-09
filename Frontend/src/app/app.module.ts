@@ -55,6 +55,7 @@ import { JobViewComponent } from './job-view/job-view.component';
 import { OfferAddComponent } from './offer-add/offer-add.component';
 import { OfferService } from './offer.service';
 import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapplications.component';
+import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapp
     JobShortlistComponent,
     JobViewComponent,
     OfferAddComponent,
-    AdmnJobapplicationsComponent
+    AdmnJobapplicationsComponent,
+    JobApplnStatusComponent
   ],
   imports: [
     BrowserModule,

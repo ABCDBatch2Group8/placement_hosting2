@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JobService } from '../job.service';
+import { HeaderService } from '../header.service';
 
 @Component({
   selector: 'app-job-list',
@@ -16,9 +17,10 @@ export class JobListComponent implements OnInit {
     jd_text: '',
     number: ''
   }]
-    constructor(private jobService: JobService, private router: Router) { }
+    constructor(private headservice : HeaderService,private jobService: JobService, private router: Router) { }
 
   ngOnInit(): void {
+    this.headservice.setMenu("employer");
     let empRef = localStorage.getItem("EmpId");
     this.jobService.getJobs(empRef).subscribe((data:any)=>{
       console.log("data")

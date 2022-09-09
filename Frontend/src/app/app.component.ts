@@ -9,10 +9,10 @@ export class AppComponent {
   title = 'Frontend';
 
   constructor() {   
-    window.onbeforeunload = function() {
-      localStorage.clear();
-      return '';
-    };
+    // window.onbeforeunload = function() {
+    //   localStorage.clear();
+    //   return '';
+    // };
   }
   
 }

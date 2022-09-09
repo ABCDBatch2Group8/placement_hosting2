@@ -64,5 +64,9 @@ export class JobService {
     return this.http.put<any>(`${this.server_address}/job/mark/sl`,id)
   }
 
+  getApplicants(params:any){
+    return this.http.get<any>(`${this.server_address}/job/get/sl`,{params})
+  }
+
 }
 
