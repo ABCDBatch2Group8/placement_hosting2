@@ -1,5 +1,3 @@
-
-
 export class JobModel {
     constructor(
         public jobid: String,

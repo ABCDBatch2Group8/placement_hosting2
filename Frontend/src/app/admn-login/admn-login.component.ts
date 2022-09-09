@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdmnAuthService } from '../admn-auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
+import { HeaderService } from '../header.service';
 
 
 @Component({
@@ -14,9 +15,10 @@ export class AdmnLoginComponent implements OnInit {
   email!:string
   password!:string
 
-  constructor(private admnauth:AdmnAuthService,private router:Router) { }
+  constructor(private headservice : HeaderService,private admnauth:AdmnAuthService,private router:Router) { }
 
   ngOnInit(): void {
+    this.headservice.setMenu("general");
   }
 loginAdmin(){
   const admin={

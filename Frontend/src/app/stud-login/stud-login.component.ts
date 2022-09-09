@@ -13,10 +13,10 @@ export class StudLoginComponent implements OnInit {
 
   user={email:'',
   password:''}
-  constructor(private headservice : HeaderService ,private _auth: StudAuthService,private _router:Router) { }
+  constructor(private headservice : HeaderService,private _auth: StudAuthService,private _router:Router) { }
 
   ngOnInit(): void {
-    this.headservice.setMenu("student");
+    this.headservice.setMenu("general");
   }
   loginUser () {
     
@@ -47,6 +47,7 @@ export class StudLoginComponent implements OnInit {
               console.log("token",res.tok);
               localStorage.setItem('stud-id',res.id);
               localStorage.setItem('token',res.tok);
+              localStorage.setItem("AuthUser","student");
             // localStorage.setItem('token', res.token)
             Swal.fire({
               toast: true,
