@@ -1,4 +1,16 @@
-
+<div class="slider-area ">
+  <div class="single-slider section-overly d-flex align-items-center"  style="height:150px!important;">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-12">
+                  <div class="hero-cap text-center">                            
+                      <h2>Profile update</h2>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 
 <section class="contact-section">
     <div class="py-5">
@@ -65,6 +77,7 @@
       <div class="form-group">
         <label>your Location</label>
         <input
+        placeholder="eg:Ernakulam"
           type="text"
           class="form-control"
           name="password"
@@ -151,6 +164,7 @@
         <label>10th Marks(%)</label>
         <input
           type="text"
+          placeholder="eg:70"
           class="form-control"
           name="marks"
           [(ngModel)]= "Signin. educationMarks.Mark10"
@@ -169,6 +183,7 @@
         <input
           type="text"
           class="form-control"
+          placeholder="eg:70"
           name="Mark12"
           [(ngModel)]= "Signin.educationMarks.Mark12"
           pattern="^[1-9][0-9]?$|^100$"
@@ -186,6 +201,7 @@
       <input
         type="text"
         class="form-control"
+        placeholder="eg:2020"
         name="YearOfPassout"
         pattern = "[0-9]{4}"
         [(ngModel)]= "Signin.YearOfPassout"
@@ -204,6 +220,7 @@
         type="text"
         class="form-control"
         name="qualification"
+        placeholder="eg:70"
         [(ngModel)]= "Signin.educationMarks.QualificationMark"
         pattern="^[1-9][0-9]?$|^100$"
         #qualification="ngModel"
