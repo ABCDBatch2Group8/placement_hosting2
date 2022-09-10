@@ -9,25 +9,6 @@ const Skill = require("../models/skill");
 const { json } = require("express");
 const jwt = require('jsonwebtoken');
 
-
-function verifyToken(req, res, next) {
-  if(!req.headers.authorization) {
-    return res.status(401).send('Unauthorized request')
-  }
-  let token = req.headers.authorization.split(' ')[1]
-  if(token === 'null') {
-    return res.status(401).send('Unauthorized request')    
-  }
-  let payload = jwt.verify(token, 'secretKey')
-  console.log("payload",payload)
-  if(!payload) {
-    return res.status(401).send('Unauthorized request')    
-  }
-  req.userId = payload.subject
-  next()
-}
-
-
 // file upload using multer
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
@@ -148,7 +129,7 @@ route.post("/login", (req, res) => {
   });
 });
 
-route.get("/dashboard/:id", verifyToken, async (req, res) => {
+route.get("/dashboard/:id", async (req, res) => {
   console.log(req.params);
   try {
     const id = req.params.id;
@@ -175,7 +156,7 @@ route.get("/skill", async (req, res) => {
   }
 });
 
-route.put("/dashboard/update", verifyToken, async (req, res) => {
+route.put("/dashboard/update", async (req, res) => {
   // console.log("in update ");
   // console.log(req.body);
   // console.log(req.body._id);
@@ -207,7 +188,7 @@ route.put("/dashboard/update", verifyToken, async (req, res) => {
 });
 // @@@@@@@@@@@second page@@@@@@@@@@@
 
-route.put("/dashboard/update2",  verifyToken,async (req, res) => {
+route.put("/dashboard/update2",  async (req, res) => {
   console.log("in update ");
   // console.log(req.body);
   console.log(req.body._id);
@@ -237,7 +218,7 @@ route.put("/dashboard/update2",  verifyToken,async (req, res) => {
   }
 });
 
-route.get("/jobListing",  verifyToken,(req, res) => {
+route.get("/jobListing", (req, res) => {
   let date = new Date().toISOString();
   Jobs.find({
     $and: [{ start_date: { $lte: date } }, { end_date: { $gte: date } }],
@@ -255,7 +236,7 @@ route.get("/jobListing",  verifyToken,(req, res) => {
 
 //job details viewing
 // pending work...
-route.get("/job/:id", verifyToken, function (req, res) {
+route.get("/job/:id", function (req, res) {
   const id = req.params.id;
 
   Jobs.findOne({ _id: id }).then((job) => {
@@ -266,7 +247,7 @@ route.get("/job/:id", verifyToken, function (req, res) {
 
 // updating student mail and job id to job collection
 
-route.put("/applyjob",  verifyToken,async (req, res) => {
+route.put("/applyjob", async (req, res) => {
   console.log("in applyjob ");
   // console.log(req.body);
   console.log(req.body);
@@ -284,7 +265,7 @@ route.put("/applyjob",  verifyToken,async (req, res) => {
   }
 });
 
-route.get("/history/:id",  verifyToken,async (req, res) => {
+route.get("/history/:id",  async (req, res) => {
   console.log("in history (get req) :", req.params);
   try {
     const id = req.params.id;

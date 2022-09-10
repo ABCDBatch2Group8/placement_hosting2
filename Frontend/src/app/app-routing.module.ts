@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from  '@angular/router';
+import { EmpAuthGuard } from './emp-auth.guard';
 
 // import {  } from "@angular/";
 import { AdminComponent } from './admin/admin.component';
@@ -53,15 +54,15 @@ const routes: Routes = [
     {path : "", component : EmpLoginComponent},
     {path : "login", component : EmpLoginComponent},
     {path : "signup", component : EmpSignupComponent},
-    {path : "dashboard", component: EmpDashboardComponent},
-    {path : "profile", component: EmpProfileComponent},
-    {path : "job-post", component: JobPostComponent },
-    {path : "job-list", component: JobListComponent },
-    {path : "job-view", component: JobViewComponent },
-    {path : "job-update", component: JobUpdateComponent },
-    {path : "job-shortlist", component: JobShortlistComponent },
-    {path : "offer-add", component: OfferAddComponent },
-    {path : "appln-status", component: JobApplnStatusComponent }
+    {path : "dashboard",canActivate:[EmpAuthGuard], component: EmpDashboardComponent},
+    {path : "profile", canActivate:[EmpAuthGuard], component: EmpProfileComponent},
+    {path : "job-post", canActivate:[EmpAuthGuard], component: JobPostComponent },
+    {path : "job-list", canActivate:[EmpAuthGuard], component: JobListComponent },
+    {path : "job-view", canActivate:[EmpAuthGuard], component: JobViewComponent },
+    {path : "job-update", canActivate:[EmpAuthGuard], component: JobUpdateComponent },
+    {path : "job-shortlist", canActivate:[EmpAuthGuard], component: JobShortlistComponent },
+    {path : "offer-add", canActivate:[EmpAuthGuard], component: OfferAddComponent },
+    {path : "appln-status", canActivate:[EmpAuthGuard], component: JobApplnStatusComponent }
     
   ]
   },

@@ -20,6 +20,7 @@ export class LogoutComponent implements OnInit {
       localStorage.removeItem('EmpComp');
       localStorage.removeItem('EmpId');
       localStorage.removeItem('JobId');
+      localStorage.removeItem('empToken');
       this.router.navigate(['employer'])
 
     }
