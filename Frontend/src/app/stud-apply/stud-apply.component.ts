@@ -9,6 +9,7 @@ import { HeaderService } from '../header.service';
   styleUrls: ['./stud-apply.component.css'],
 })
 export class StudApplyComponent implements OnInit {
+  
   jobs = {
     jobid: '',
     position: '',

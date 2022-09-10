@@ -3,6 +3,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown'
+import { StudTokenInterceptorService } from './stud-token-interceptor.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -114,7 +115,7 @@ import { LogoutComponent } from './logout/logout.component';
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService],
+  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService,{provide:HTTP_INTERCEPTORS,useClass:StudTokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
