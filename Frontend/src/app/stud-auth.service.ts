@@ -88,10 +88,12 @@ export class StudAuthService {
     //  .subscribe((data) =>{console.log(data)})
   }
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem('stud-token');
   }
+
+  // for auth guard
   loggedIn() {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('stud-token');
   }
   stud_dashboard(id: any) {
     return this.http.get<any>(`${this.server_address}/student/dashboard/` + id);
@@ -143,5 +145,8 @@ export class StudAuthService {
       responseType: 'blob',
     });
   }
+
+  
+ 
 }
 

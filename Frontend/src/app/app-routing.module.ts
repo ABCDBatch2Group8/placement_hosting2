@@ -42,6 +42,7 @@ import { OfferAddComponent } from './offer-add/offer-add.component';
 import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapplications.component';
 import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.component';
 import { LogoutComponent } from './logout/logout.component';
+import { StudGuard } from './stud.guard';
 
 
 
@@ -69,14 +70,14 @@ const routes: Routes = [
     {path : "", component : StudLoginComponent},
     {path : "login", component : StudLoginComponent},
     {path : "signup", component : StudSignupComponent},
-    {path : "job", component :StudJoblistComponent},
-    {path : "contact", component :StudContactUspageComponent},
-    {path : "profile", component :StudProfilepageComponent},
-    {path : "settings", component :StudSettingspageComponent},
-    {path : "updatepg2", component :StudFormP2Component},
-    {path : "apply", component :StudApplyComponent},
-    {path : "home", component : StudHomeComponent},
-    {path : "history", component : StudJobhistoryComponent}
+    {path : "job", canActivate:[StudGuard], component :StudJoblistComponent},
+    {path : "contact",canActivate:[StudGuard], component :StudContactUspageComponent},
+    {path : "profile", canActivate:[StudGuard],component :StudProfilepageComponent},
+    {path : "settings", canActivate:[StudGuard],component :StudSettingspageComponent},
+    {path : "updatepg2",canActivate:[StudGuard], component :StudFormP2Component},
+    {path : "apply",canActivate:[StudGuard], component :StudApplyComponent},
+    {path : "home", canActivate:[StudGuard],component : StudHomeComponent},
+    {path : "history",canActivate:[StudGuard], component : StudJobhistoryComponent}
   
   ]
   },
