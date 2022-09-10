@@ -13,7 +13,7 @@ constructor(private auth:StudAuthService,private route :Router){}
       return true
     }
     else{
-      this.route.navigate['']
+      this.route.navigate['student']
 return false
     }
   }

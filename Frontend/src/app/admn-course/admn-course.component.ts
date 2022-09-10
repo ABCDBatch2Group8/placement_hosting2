@@ -29,6 +29,8 @@ Course={
 }
 course!:string
 caegory!:string
+server_address: string = '/api';
+
   constructor(private http:HttpClient,
     private router:Router,
     private admn:AdmnAuthService) { }
@@ -37,7 +39,7 @@ caegory!:string
     this.getCourses()
   }
 getCourses(){
-this.http.get<any>("http://localhost:3000/admin/showcourse").subscribe(
+this.http.get<any>(`${this.server_address}/admin/showcourse`).subscribe(
   response=>{
     this.courses=response;
     console.log(response)

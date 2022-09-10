@@ -17,6 +17,7 @@ export class Admin{
 })
 export class AdmnListComponent implements OnInit {
   admin:any;
+  server_address: string = '/api';
   constructor(
     private admn:AdmnAuthService,
     private router:Router,
@@ -27,7 +28,7 @@ export class AdmnListComponent implements OnInit {
     this.getAdmin()
   }
   getAdmin(){
-    this.http.get("http://localhost:3000/admin/admins").subscribe(
+    this.http.get(`${this.server_address}/admin/admins`).subscribe(
       response=>{
         this.admin=response;
         console.log(response)

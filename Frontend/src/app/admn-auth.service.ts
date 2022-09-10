@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdmnAuthService {
+  server_address: string = '/api';
   stud={
     firstname:'',
     lastname:'',
@@ -15,10 +16,10 @@ export class AdmnAuthService {
 
   constructor(private http:HttpClient) { }
   admnlogin(admin:any){
-    return this.http.post('http://localhost:3000/admin/login',admin)
+    return this.http.post(`${this.server_address}/admin/login`,admin)
   }
   newAdmin(admin:any){
-    return this.http.post('http://localhost:3000/admin/signup',admin)
+    return this.http.post(`${this.server_address}/admin/signup`,admin)
     .subscribe(data=>{
       console.log(data);
     })
@@ -28,19 +29,19 @@ export class AdmnAuthService {
   }
   newStudent(stud:any){
     
-    return this.http.post('http://localhost:3000/admin/addictkstudent',stud)
+    return this.http.post(`${this.server_address}/admin/addictkstudent`,stud)
     .subscribe(data=>{
       console.log(data);
     })
   }
   newCourse(course:any){
-    return this.http.post('http://localhost:3000/admin/course',course)
+    return this.http.post(`${this.server_address}/admin/course`,course)
     .subscribe(data=>{
       console.log(data);
     })
   }
   getStudent(email:any){
-    return this.http.get('http://localhost:3000/admin/student',email)
+    return this.http.get(`${this.server_address}/admin/student`,email)
     .subscribe(data=>{
       console.log(data);
     })
@@ -48,10 +49,10 @@ export class AdmnAuthService {
   }
   deleteCourse(id:any){
     
-    return this.http.delete("http://localhost:3000/admin/deletecourse/"+id)
+    return this.http.delete(`${this.server_address}/admin/deletecourse/`+id)
   }
   deleteStudent(id:any){
     
-    return this.http.delete("http://localhost:3000/admin/deletestudent/"+id)
+    return this.http.delete(`${this.server_address}/admin/deletestudent/`+id)
   }
 }
