@@ -27,9 +27,9 @@ export class LogoutComponent implements OnInit {
 
     else if (this.authsect == "student") {
       localStorage.removeItem('AuthUser');
-      localStorage.removeItem('Token');
-      localStorage.removeItem('Job');
-      localStorage.removeItem('Stud-id');
+      localStorage.removeItem('stud-token');
+      localStorage.removeItem('job');
+      localStorage.removeItem('stud-id');
       this.router.navigate(['student'])
 
     }

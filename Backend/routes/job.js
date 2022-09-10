@@ -16,25 +16,8 @@ getJob = [{
   YearOfPassout: ''
 }]
 
-function verifyToken(req, res, next) {
-  if(!req.headers.authorization) {
-    return res.status(401).send('Unauthorized request')
-  }
-  let token = req.headers.authorization.split(' ')[1]
-  if(token === 'null') {
-    return res.status(401).send('Unauthorized request')    
-  }
-  let payload = jwt.verify(token, 'secretKey')
-  console.log("payload is",payload)
-  if(!payload) {
-    return res.status(401).send('Unauthorized request')    
-  }
-  req.userId = payload.subject
-  next()
-}
-
 // Job posting by the employer
-router.post('/jobpost', verifyToken, (req, res) => {
+router.post('/jobpost', (req, res) => {
   console.log("req body",req.body)
 
   Job.findOne({ "jobid": req.body.Job.jobid }).then(function (getJobid) {
@@ -70,7 +53,7 @@ router.post('/jobpost', verifyToken, (req, res) => {
 });
 
 // Get the list of jobs posted in job collection
-router.get('/joblist/:empref', verifyToken, async (req, res) => {
+router.get('/joblist/:empref',  async (req, res) => {
   console.log("in job route get");
 
   try {
@@ -84,7 +67,7 @@ router.get('/joblist/:empref', verifyToken, async (req, res) => {
   }
 })
 
-router.get('/jobview/:id', verifyToken, async (req, res) => {
+router.get('/jobview/:id', async (req, res) => {
   console.log("in book route");
   console.log(req.params);
   try {
@@ -103,7 +86,7 @@ router.get('/jobview/:id', verifyToken, async (req, res) => {
 
 //If shortlisting is based on year of pass out alone
 // Tested query
-router.get('/sl/year', verifyToken, async (req, res) => {
+router.get('/sl/year',  async (req, res) => {
   console.log("in shortlist");
   console.log(req.query);
   try {
@@ -147,7 +130,7 @@ router.get('/sl/year', verifyToken, async (req, res) => {
 // }]
 // If shortlisting is based on skills provided in the job description
 // Tested query
-router.get('/sl/skill', verifyToken, async (req, res) => {
+router.get('/sl/skill', async (req, res) => {
   console.log("in skill shortlist");
   console.log(req.query);
   try {
@@ -194,7 +177,7 @@ router.get('/sl/skill', verifyToken, async (req, res) => {
 
 // If shortlisting is based on course in ICTAK
 // Tested query
-router.get('/sl/course', verifyToken, async (req, res) => {
+router.get('/sl/course', async (req, res) => {
   console.log("in course shortlist");
   console.log(req.query);
   try {
@@ -233,7 +216,7 @@ router.get('/sl/course', verifyToken, async (req, res) => {
 
 //If shortlisting is based on year of pass out and course in ICTAK
 // Tested query
-router.get('/sl/cy', verifyToken, async (req, res) => {
+router.get('/sl/cy', async (req, res) => {
   console.log("in cy shortlist");
   console.log(req.query);
   try {
@@ -270,7 +253,7 @@ router.get('/sl/cy', verifyToken, async (req, res) => {
 
 //If shortlisting is based on year of pass out and matching skills
 // Tested query
-router.get('/sl/ys', verifyToken, async (req, res) => {
+router.get('/sl/ys', async (req, res) => {
   console.log("in ys shortlist");
   console.log(req.query);
   try {
@@ -321,7 +304,7 @@ router.get('/sl/ys', verifyToken, async (req, res) => {
 
 //If shortlisting is based on course in ICTAK and matching skills
 // Tested query
-router.get('/sl/sc', verifyToken, async (req, res) => {
+router.get('/sl/sc',  async (req, res) => {
   console.log("in sc shortlist");
   console.log(req.query);
   try {
@@ -374,7 +357,7 @@ router.get('/sl/sc', verifyToken, async (req, res) => {
 
 //If shortlisting is based on year of passout, course in ICTAK and matching skills
 // Tested query
-router.get('/sl/ysc', verifyToken, async (req, res) => {
+router.get('/sl/ysc', async (req, res) => {
   console.log("in ysc shortlist");
   console.log(req.query);
   try {
@@ -430,7 +413,7 @@ router.get('/sl/ysc', verifyToken, async (req, res) => {
 });
 // ********** Update application status
 
-router.get('/mark/sl', verifyToken, async(req, res) => {
+router.get('/mark/sl', async(req, res) => {
   console.log("in update mar/sl ");
 
   console.log("body is", req.query);
@@ -486,7 +469,7 @@ router.get('/mark/sl', verifyToken, async(req, res) => {
   console.log("at end")
 });
 
-router.get('/get/sl', verifyToken, async (req, res) => {
+router.get('/get/sl', async (req, res) => {
   console.log("in job route get");
   console.log(req.query);
 

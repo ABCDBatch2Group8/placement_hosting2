@@ -9,24 +9,6 @@ const Skill = require("../models/skill");
 const { json } = require("express");
 const jwt = require('jsonwebtoken');
 
-
-function verifyToken(req, res, next) {
-  if(!req.headers.authorization) {
-    return res.status(401).send('Unauthorized request')
-  }
-  let token = req.headers.authorization.split(' ')[1]
-  if(token === 'null') {
-    return res.status(401).send('Unauthorized request')    
-  }
-  let payload = jwt.verify(token, 'secretKey')
-  if(!payload) {
-    return res.status(401).send('Unauthorized request')    
-  }
-  req.userId = payload.subject
-  next()
-}
-
-
 // file upload using multer
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
@@ -206,7 +188,7 @@ route.put("/dashboard/update", async (req, res) => {
 });
 // @@@@@@@@@@@second page@@@@@@@@@@@
 
-route.put("/dashboard/update2", async (req, res) => {
+route.put("/dashboard/update2",  async (req, res) => {
   console.log("in update ");
   // console.log(req.body);
   console.log(req.body._id);
@@ -283,7 +265,7 @@ route.put("/applyjob", async (req, res) => {
   }
 });
 
-route.get("/history/:id", async (req, res) => {
+route.get("/history/:id",  async (req, res) => {
   console.log("in history (get req) :", req.params);
   try {
     const id = req.params.id;

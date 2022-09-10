@@ -57,7 +57,6 @@ import { OfferService } from './offer.service';
 import { AdmnJobapplicationsComponent } from './admn-jobapplications/admn-jobapplications.component';
 import { JobApplnStatusComponent } from './job-appln-status/job-appln-status.component';
 import { LogoutComponent } from './logout/logout.component';
-import { EmpTokenInterceptorService } from './emp-token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -115,11 +114,8 @@ import { EmpTokenInterceptorService } from './emp-token-interceptor.service';
     DataTablesModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: EmpTokenInterceptorService,
-    multi: true
-  }],
+  providers: [EmpService,JobService,StudAuthService,SkillService,OfferService],
+ 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

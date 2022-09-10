@@ -3,23 +3,6 @@ const router = express.Router();
 const Employer = require('../models/employer');
 const jwt = require('jsonwebtoken')
 
-function verifyToken(req, res, next) {
-  if(!req.headers.authorization) {
-    return res.json({ "message": "Unauthorized", "status": "error" })
-  }
-  let token = req.headers.authorization.split(' ')[1]
-  if(token === 'null') {
-    return res.json({ "message": "Unauthorized", "status": "error" })    
-  }
-  let payload = jwt.verify(token, 'secretKey')
-  console.log("payload is",payload)
-  if(!payload) {
-    return res.json({ "message": "Unauthorized", "status": "error" })   
-  }
-  req.userId = payload.subject
-  next()
-}
-
 // Employer signup 
 router.post('/signup', async (req, res) => {
 
@@ -97,7 +80,7 @@ router.post('/login', (req, res) => {
   )
 })
 
-router.get('/profile/:id', verifyToken, async (req, res) => {
+router.get('/profile/:id', async (req, res) => {
   console.log("in book route");
   console.log(req.params);
   try {
@@ -111,7 +94,7 @@ router.get('/profile/:id', verifyToken, async (req, res) => {
   }
 });
 
-router.put('/profile/update', verifyToken, async (req, res) => {
+router.put('/profile/update', async (req, res) => {
   console.log("in update ");
   console.log(req.body.title);
   console.log("req body:");
