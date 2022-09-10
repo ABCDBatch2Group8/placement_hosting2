@@ -1,6 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const Employer = require('../models/employer');
+const jwt = require('jsonwebtoken')
+
+function verifyToken(req, res, next) {
+  if(!req.headers.authorization) {
+    return res.json({ "message": "Unauthorized", "status": "error" })
+  }
+  let token = req.headers.authorization.split(' ')[1]
+  if(token === 'null') {
+    return res.json({ "message": "Unauthorized", "status": "error" })    
+  }
+  let payload = jwt.verify(token, 'secretKey')
+  console.log("payload is",payload)
+  if(!payload) {
+    return res.json({ "message": "Unauthorized", "status": "error" })   
+  }
+  req.userId = payload.subject
+  next()
+}
 
 // Employer signup 
 router.post('/signup', async (req, res) => {
@@ -19,7 +37,8 @@ router.post('/signup', async (req, res) => {
       });
       employer.save()
         .then(data => {
-          res.json({ "message": "Successfully registered", "status": "success" });
+          
+          res.json({ "message": "Successfully registered", "status": "success"});
           console.log("success")
         })
         .catch(err => {
@@ -57,7 +76,9 @@ router.post('/login', (req, res) => {
       if (getUser.disable_status == "N") {
         if (pwd == getUser.password) {
           console.log("Valid login")
-          res.json({ "message": "Login successful", "status": "success", "eid": getUser._id,"company":getUser.title });
+          let payload={subject:getUser.username+getUser.password}
+          let token = jwt.sign(payload,'secretKey')
+          res.json({ "message": "Login successful", "status": "success", "eid": getUser._id,"company":getUser.title,"token":token });
           flag = true
           console.log(getUser);
         }
@@ -76,7 +97,7 @@ router.post('/login', (req, res) => {
   )
 })
 
-router.get('/profile/:id', async (req, res) => {
+router.get('/profile/:id', verifyToken, async (req, res) => {
   console.log("in book route");
   console.log(req.params);
   try {
@@ -86,11 +107,11 @@ router.get('/profile/:id', async (req, res) => {
     console.log("getEmp" + getEmp);
   } catch (err) {
     console.log("In error /profile");
-    res.json({ message: err })
+    res.json({ "message": err })
   }
 });
 
-router.put('/profile/update', async (req, res) => {
+router.put('/profile/update', verifyToken, async (req, res) => {
   console.log("in update ");
   console.log(req.body.title);
   console.log("req body:");

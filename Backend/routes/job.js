@@ -5,6 +5,7 @@ const router = express.Router();
 const Job = require('../models/job');
 const ObjectId = require("mongodb").ObjectId;
 const Student = require('../models/student');
+const jwt = require('jsonwebtoken')
 
 
 getJob = [{
@@ -15,8 +16,25 @@ getJob = [{
   YearOfPassout: ''
 }]
 
+function verifyToken(req, res, next) {
+  if(!req.headers.authorization) {
+    return res.status(401).send('Unauthorized request')
+  }
+  let token = req.headers.authorization.split(' ')[1]
+  if(token === 'null') {
+    return res.status(401).send('Unauthorized request')    
+  }
+  let payload = jwt.verify(token, 'secretKey')
+  console.log("payload is",payload)
+  if(!payload) {
+    return res.status(401).send('Unauthorized request')    
+  }
+  req.userId = payload.subject
+  next()
+}
+
 // Job posting by the employer
-router.post('/jobpost', (req, res) => {
+router.post('/jobpost', verifyToken, (req, res) => {
   console.log("req body",req.body)
 
   Job.findOne({ "jobid": req.body.Job.jobid }).then(function (getJobid) {
@@ -52,7 +70,7 @@ router.post('/jobpost', (req, res) => {
 });
 
 // Get the list of jobs posted in job collection
-router.get('/joblist/:empref', async (req, res) => {
+router.get('/joblist/:empref', verifyToken, async (req, res) => {
   console.log("in job route get");
 
   try {
@@ -66,7 +84,7 @@ router.get('/joblist/:empref', async (req, res) => {
   }
 })
 
-router.get('/jobview/:id', async (req, res) => {
+router.get('/jobview/:id', verifyToken, async (req, res) => {
   console.log("in book route");
   console.log(req.params);
   try {
@@ -81,25 +99,17 @@ router.get('/jobview/:id', async (req, res) => {
   }
 });
 
-// studDetails1 = [{
-//   qualification: '',
-//   stream: '',
-//   employmentStatus: '',
-//   careerBreak: '',
-//   YearOfPassout: null
-// }]
 
 
 //If shortlisting is based on year of pass out alone
 // Tested query
-router.get('/sl/year', async (req, res) => {
+router.get('/sl/year', verifyToken, async (req, res) => {
   console.log("in shortlist");
   console.log(req.query);
   try {
     const id = req.query.jobId;
     const passout = req.query.yop;
     const getApp = await Job.findById({ "_id": id }, { "applicants": 1 });
-    // res.json(getJob);
     console.log("getApp" + getApp);
     studDetails = []
     try {
@@ -107,7 +117,7 @@ router.get('/sl/year', async (req, res) => {
       for (let i = 0; i < getApp.applicants.length; i++) {
         // sid = getApp.applicants[i].stud_ref
         console.log("student ref", i, getApp.applicants[i].stud_ref);
-        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "skills": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "email": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
         console.log("get pasout is ", getStud.YearOfPassout)
         if (getStud.YearOfPassout >= passout) {
           studDetails.push(getStud);
@@ -137,7 +147,7 @@ router.get('/sl/year', async (req, res) => {
 // }]
 // If shortlisting is based on skills provided in the job description
 // Tested query
-router.get('/sl/skill', async (req, res) => {
+router.get('/sl/skill', verifyToken, async (req, res) => {
   console.log("in skill shortlist");
   console.log(req.query);
   try {
@@ -150,7 +160,7 @@ router.get('/sl/skill', async (req, res) => {
       for (let i = 0; i < getJob.applicants.length; i++) {
 
         const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref },
-          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "skills": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "email": 1, "ICTAKscore": 1, "courseInICTAK": 1,"skills":1 })
         // var count = 0;
         loop2:
         for (let j = 0; j < getJob.skills.length; j++) {
@@ -184,7 +194,7 @@ router.get('/sl/skill', async (req, res) => {
 
 // If shortlisting is based on course in ICTAK
 // Tested query
-router.get('/sl/course', async (req, res) => {
+router.get('/sl/course', verifyToken, async (req, res) => {
   console.log("in course shortlist");
   console.log(req.query);
   try {
@@ -196,7 +206,7 @@ router.get('/sl/course', async (req, res) => {
     try {
       for (let i = 0; i < getApp.applicants.length; i++) {
         const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref },
-          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+          { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "ICTAKscore": 1, "courseInICTAK": 1,"email":1,"YearOfPassout": 1})
         console.log("course are", getStud.courseInICTAK, course);
         if (getStud.courseInICTAK == course) {
           console.log("ICTAK score", getStud.ICTAKscore);
@@ -223,7 +233,7 @@ router.get('/sl/course', async (req, res) => {
 
 //If shortlisting is based on year of pass out and course in ICTAK
 // Tested query
-router.get('/sl/cy', async (req, res) => {
+router.get('/sl/cy', verifyToken, async (req, res) => {
   console.log("in cy shortlist");
   console.log(req.query);
   try {
@@ -236,7 +246,7 @@ router.get('/sl/cy', async (req, res) => {
     try {
       console.log("student ref", getApp.applicants[0].stud_ref);
       for (let i = 0; i < getApp.applicants.length; i++) {
-        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "skills": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        const getStud = await Student.findById({ "_id": getApp.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "email": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
         if ((getStud.YearOfPassout >= passout) & (getStud.courseInICTAK == course) & (getStud.ICTAKscore >= 40)) {
           studDetails.push(getStud);
           //   }
@@ -260,7 +270,7 @@ router.get('/sl/cy', async (req, res) => {
 
 //If shortlisting is based on year of pass out and matching skills
 // Tested query
-router.get('/sl/ys', async (req, res) => {
+router.get('/sl/ys', verifyToken, async (req, res) => {
   console.log("in ys shortlist");
   console.log(req.query);
   try {
@@ -273,7 +283,7 @@ router.get('/sl/ys', async (req, res) => {
       console.log("length", getJob.applicants.length);
       loop1:
       for (let i = 0; i < getJob.applicants.length; i++) {
-        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "skills": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "email": 1, "ICTAKscore": 1, "courseInICTAK": 1,"skills":1})
         loop2:
         if ((getStud.YearOfPassout >= passout)) {
           console.log("hi", getJob.skills.length);
@@ -311,7 +321,7 @@ router.get('/sl/ys', async (req, res) => {
 
 //If shortlisting is based on course in ICTAK and matching skills
 // Tested query
-router.get('/sl/sc', async (req, res) => {
+router.get('/sl/sc', verifyToken, async (req, res) => {
   console.log("in sc shortlist");
   console.log(req.query);
   try {
@@ -325,7 +335,9 @@ router.get('/sl/sc', async (req, res) => {
       console.log("length", getJob.applicants.length);
       loop1:
       for (let i = 0; i < getJob.applicants.length; i++) {
-        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "skills": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "email": 1, "ICTAKscore": 1, "courseInICTAK": 1, "skills":1 })
+        console.log("job",getJob)
+        console.log("stud",getStud)
         loop2:
         if ((getStud.courseInICTAK == course) & (getStud.ICTAKscore >= 40)) {
           console.log("hi", getJob.skills.length);
@@ -362,7 +374,7 @@ router.get('/sl/sc', async (req, res) => {
 
 //If shortlisting is based on year of passout, course in ICTAK and matching skills
 // Tested query
-router.get('/sl/ysc', async (req, res) => {
+router.get('/sl/ysc', verifyToken, async (req, res) => {
   console.log("in ysc shortlist");
   console.log(req.query);
   try {
@@ -377,7 +389,7 @@ router.get('/sl/ysc', async (req, res) => {
       console.log("length", getJob.applicants.length);
       loop1:
       for (let i = 0; i < getJob.applicants.length; i++) {
-        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "skills": 1, "ICTAKscore": 1, "courseInICTAK": 1 })
+        const getStud = await Student.findById({ "_id": getJob.applicants[i].stud_ref }, { "qualification": 1, "stream": 1, "employmentStatus": 1, "careerBreak": 1, "YearOfPassout": 1, "email": 1, "ICTAKscore": 1, "courseInICTAK": 1, "skills":1 })
         console.log("loop1:")
         loop2:
         console.log("psout", getStud.YearOfPassout)
@@ -418,32 +430,27 @@ router.get('/sl/ysc', async (req, res) => {
 });
 // ********** Update application status
 
-router.put('/mark/sl', async (req, res) => {
+router.get('/mark/sl', verifyToken, async(req, res) => {
   console.log("in update mar/sl ");
-  console.log("body is", req.body._id);
+
+  console.log("body is", req.query);
 
   try {
-    // await Job.findOneAndUpdate({ "applicants.stud_ref": req.body._id },
-    //   await Job.updateOne({ "applicants.stud_ref": req.body._id },
-    //   {
-    //     $set: {
-    //       "applicants.shortlist_status": 1,
-    //     }
-    //   }
-    // )
-    const x = await job.findOne({ "applicants.stud_ref": req.body._id })
+    
+    const x = await job.findOne({ "applicants.stud_ref": req.query.studRef })
+    console.log("x is",x)
     const updateId = x._id
     console.log("updateid is", updateId)
 
     for (let i = 0; i < x.applicants.length; i++) {
-      console.log("stud,body", x.applicants[i].stud_ref, req.body._id)
-      if (x.applicants[i].stud_ref === req.body._id) {
-        console.log("matched", x.applicants[i].stud_ref, req.body._id)
+      console.log("stud,body", x.applicants[i].stud_ref, req.query.studRef)
+      if (x.applicants[i].stud_ref === req.query.studRef) {
+        console.log("matched", x.applicants[i].stud_ref, req.query.studRef)
         var updateId1 = x.applicants[i]._id
         // console.log("updateid is",x.applicants[i]._id)
       }
     }
-    console.log("ids are", updateId, " ", updateId1, " ", req.body._id);
+    console.log("ids are", updateId, " ", updateId1, " ", req.query.studRef);
     try {
       await Job.update(
         {
@@ -459,7 +466,7 @@ router.put('/mark/sl', async (req, res) => {
           "arrayFilters": [
             {
               "elemA._id": updateId1,
-              "elemA.stud_ref": req.body._id
+              "elemA.stud_ref": req.query.studRef
             }
           ]
         }
@@ -470,41 +477,6 @@ router.put('/mark/sl', async (req, res) => {
       res.json({ message: err });
     }
 
-      // await Job.updateOne({_id : updateId , "applicants._id": updateId1} , {$inc: {"applicants.$.shortlist_status": 1}})
-
-      // const x = Job.find(
-      //   {"applicants.stud_ref": req.body._id}, 
-      //   {_id: 0, applicants: {$elemMatch: {stud_ref: req.body._id}}});
-
-      //   console.log("found",x);
-      // const arrOfx = Object.entries(x).map(entry => entry[1]);
-
-      // console.log("x.applicants.length",x.applicants.length)
-      // for (let i=0;i<x.applicants.length;i++){
-      //   console.log("stud,body",x.applicants[i].stud_ref,req.body._id)
-      //   if (x.applicants[i].stud_ref === req.body._id){
-      //     console.log("matched",x.applicants[i].stud_ref,req.body._id )
-      //     const updateId = x.applicants[i]._id
-      //     console.log("updateid is",x.applicants[i]._id)
-      //   }
-      // }
-      // const x = await Job.findOne({ "applicants.stud_ref": req.body._id })
-
-    //    Job.updateOne(
-    //     {
-    //       _id: updateId,
-    //       applicants: { $elemMatch: { stud_ref: req.body._id } }
-    //     },
-    //     { $set: { "applicants.$.shortlist_status" : 1 } }
-    //  )
-    //  const y = Job.findOne(
-    //   {
-    //     _id: updateId,
-    //     applicants: { $elemMatch: { stud_ref: req.body._id } }
-    //   // },
-    //   // { $set: { "applicants.$.shortlist_status" : 1 } }
-    //   })
-    //   console.log("found",y)
 
     } catch (err) {
     console.log("In error /update")
@@ -514,7 +486,7 @@ router.put('/mark/sl', async (req, res) => {
   console.log("at end")
 });
 
-router.get('/get/sl', async (req, res) => {
+router.get('/get/sl', verifyToken, async (req, res) => {
   console.log("in job route get");
   console.log(req.query);
 
@@ -527,22 +499,34 @@ router.get('/get/sl', async (req, res) => {
     }
     else{
       console.log("right employer")
-      let display = [{
-        name: '',
-        email: '',
-        application_status: '' 
-      }]
       let j=0;
-      console.log("getJob is",getJob)
+      let display = []
+      
+      
+      // console.log("getJob is",getJob)
       for(let i=0;i<getJob.applicants.length;i++){
-          console.log("getJob.applicants[i].shortlist_status",getJob.applicants[i].shortlist_status)
+        
+          // console.log("getJob.applicants[i].shortlist_status",getJob.applicants[i].shortlist_status)
         if (getJob.applicants[i].shortlist_status === true){
-          console.log("shortlisted")
+          console.log("shortlisted and j is",j)
+          // console.log("stud ref",getJob.applicants[i].stud_ref),
+
           getStuden = await Student.findById(getJob.applicants[i].stud_ref)
+          
+          
+          // console.log("getstude",getStuden)
+
+          // **** Need to initialize every object in an array of objects
+            display [j] = {
+              name: '',
+              email: '',
+              application_status: '' 
+            } 
             display[j].name = getStuden.name;
             display[j].email = getStuden.email;
             display[j].application_status = getJob.applicants[i].application_status
-            console.log("display",j,display[j])
+            j++
+            console.log("j is",j,)
         }
       }
       console.log("display" + display);

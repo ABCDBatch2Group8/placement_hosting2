@@ -1,10 +1,28 @@
 const express = require ('express');
 const router = express.Router();
 const Placement = require('../models/placement');
+const jwt = require('jsonwebtoken')
 
+
+function verifyToken(req, res, next) {
+  if(!req.headers.authorization) {
+    return res.status(401).send('Unauthorized request')
+  }
+  let token = req.headers.authorization.split(' ')[1]
+  if(token === 'null') {
+    return res.status(401).send('Unauthorized request')    
+  }
+  let payload = jwt.verify(token, 'secretKey')
+  console.log("payload is",payload)
+  if(!payload) {
+    return res.status(401).send('Unauthorized request')    
+  }
+  req.userId = payload.subject
+  next()
+}
 
 // Placement update by the employer
-router.post('/add',(req,res)=>{
+router.post('/add',verifyToken, (req,res)=>{
 console.log("req.body offer",req.body);
     const placement = new Placement({
       job_id: req.body.offer.job_id,
